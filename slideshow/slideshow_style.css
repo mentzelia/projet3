@@ -53,13 +53,20 @@
     font-weight: 800;
 }
 
+.logo_veloc {
+    position: absolute;
+    width: 30%;
+    top: 60%;
+    z-index: 11;
+    
+    
+}
+
 .fa-chevron-circle-left, .fa-chevron-circle-right {
     position: absolute;
     top: 50%;
     font-size: 300%;
     color: #cb1a19;
-    
-    
 }
 
 .fa-chevron-circle-right {
