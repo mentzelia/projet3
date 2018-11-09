@@ -1,11 +1,6 @@
 /* cod javascript slider */
-
 var slideIndex = 1;
 showDivs(slideIndex);
-
-function plusDivs(n) {
-    showDivs(slideIndex += n);
-}
 
 function showDivs(n) {
     var i;
@@ -17,3 +12,20 @@ function showDivs(n) {
     }
     ensbleSlides[slideIndex-1].style.display = "block"; 
 }
+
+function plusDivs(n) {
+    showDivs(slideIndex += n);
+}
+
+
+var buttonLeft = document.getElementById("button_left");
+
+buttonLeft.addEventListener("click", plusDivs(-1));
+
+
+
+//var buttonRight = document.getElementsByClassName("fa-chevron-circle-right");
+
+
+
+//buttonRight.addEventListener("click", plusDivs(+1));
