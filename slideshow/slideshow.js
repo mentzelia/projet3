@@ -5,6 +5,8 @@ var slideIndex = 1;
 showDivs(slideIndex);
 
 //fonction qui affiche la diapo demandée (selon index) et cache les autres
+var ensbleSlides = ensbleSlides;
+
 function showDivs(n) {
     var i;
     var ensbleSlides = document.getElementsByClassName("elements_slide_slider1");
@@ -54,3 +56,19 @@ document.addEventListener("keydown", function(){
         right();
     }
 });
+
+//Fonction défilement automatique
+var slideIndex = 0;
+carousel();
+
+function carousel() {
+    var i;
+    var ensbleSlides = document.getElementsByClassName("elements_slide_slider1");
+    for (i = 0; i < ensbleSlides.length; i++) {
+      ensbleSlides[i].style.display = "none"; 
+    }
+    slideIndex++;
+    if (slideIndex > ensbleSlides.length) {slideIndex = 1} 
+    ensbleSlides[slideIndex-1].style.display = "block"; 
+    setTimeout(carousel, 5000); // passe suivante toutes les 5s
+}
