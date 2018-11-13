@@ -4,12 +4,7 @@ adaptation tablette et écrans PC avec media Queries*/
 
 .elements_slide_slider1 {
     position: relative;
-    transition: transform 1s ease; /* transitions slider */ 
 }
-
-.elements_slide_slider1:hover {
-transform: translateX(-100%);
-} 
 
 .img_slider1  {
     width: 100%;  
@@ -82,18 +77,14 @@ transform: translateX(-100%);
     left: 1%;
 }
 
-#button_pause,#button_play {
+.fa-pause {
     position: absolute;
     top: 5%;
     right: 15%;
     font-size: 300%;
     color: #cb1a19;
-    opacity: 0; /*position de depart boutons cachés */
 }
 
-#button_pause {
-    opacity: 1;
-}
 
 
 
