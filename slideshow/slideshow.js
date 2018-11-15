@@ -81,21 +81,25 @@ function carousel() {
     slideIndex++;
     if (slideIndex > ensbleSlides.length) {slideIndex = 1}; 
     
-    setTimeout(carousel, 5000); // passe suivante toutes les 5s
-    $(ensbleSlides[slideIndex - 1]).fadeIn(1000); 
-    $(ensbleSlides[slideIndex - 1]).delay(3000).fadeOut(1000);
-
-}; 
-
+    var timer = setTimeout(carousel, 5000); // passe suivante toutes les 5s
+    
+    $(ensbleSlides[slideIndex - 1]).fadeIn(2000); 
+    $(ensbleSlides[slideIndex - 1]).delay(3000);
+   
+ 
     //Gestion bouton pause
     var buttonPause= $(".fa-pause");
-
+    
     var sourisPause = buttonPause.hover(stopDefil, playDefil);
-    function stopDefil() {console.log("test entree");};
-    function playDefil() {console.log("test sortie");};
-
-
-   
+    function stopDefil() {
+        clearTimeout(timer);
+    };
+    
+    function playDefil() {
+        setTimeout(carousel, 500);
+    };
+ }; 
+ 
     
     
 
