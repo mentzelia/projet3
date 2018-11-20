@@ -27,6 +27,7 @@ var Slider = {
         this.showDivs(this.slideIndex);//creation slider
         this.buttonRight[0].addEventListener("click", this.right.bind(this));//bind permet de garder lien à right et pas au buttonRight, ne fonctionne pas avec jQuery, indice car considéré comme un tableau
         this.buttonLeft[0].addEventListener("click", this.left.bind(this));
+        this.keydown();//methode pour slider au clavier
         this.initCaroussel();//automatisation slider + play/pause
     },
 
@@ -61,6 +62,18 @@ var Slider = {
         this.plusDivs(+1);
     },
     
+    keydown: function(){
+        $("html").keypress(this.slideClavier());   
+    },
+    
+    slideClavier: function(){
+                if(this.keyCode==37){
+                        this.left.bind(this);
+                    };
+                if(this.keyCode==39){
+                        this.right.bind(this);
+                    };
+    },
 
     //initialisation, lance le carousel, gestion des boutons play/pause
     initCaroussel: function(){
@@ -100,4 +113,4 @@ var buttonPlay = $(".fa-play");
 var slider1 = Object.create(Slider);
 slider1.init(ensbleSlides, buttonLeft, buttonRight, buttonPause, buttonPlay, 5000)
     
-    
+     
