@@ -3,19 +3,21 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Veloc: location de vélos à Strasbourg</title>
+	<title>Veloc: location de vélos à Nantes</title>
 	<link rel="stylesheet" href="reset.css"/>
 	<link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="slideshow/slideshow_style.css" />
+    <link rel="stylesheet" href="carte/carte.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     
 </head>
 <body>
 	<section id="slideshow1">
+        
         <figure class="elements_slide_slider1">
             <img class="img_slider1" src="img/jeunes_a_velo.jpg" alt="jeunes_velo">
             <img class="logo_veloc" src="img/logo_veloc_strasbourg.png" alt="logo_veloc">
-            <h1 class="figcaption_slider1" id="figcaption_img1_slider1">Louer un vélo à Strasbourg:<br><span class="text_facile">c'est facile !</span></h1>
+            <h1 class="figcaption_slider1" id="figcaption_img1_slider1">Louer un vélo à Nantes:<br><span class="text_facile">c'est facile !</span></h1>
             <figcaption class="background_figcaption_img1_slider1"></figcaption>
         </figure> 
         
@@ -55,11 +57,44 @@
         <i class="fas fa-pause"></i>
         <i class="fas fa-play"></i>
 
-        
     </section>
+    
+    <section id="carte">
+        <div id="map"></div>
+        
+        <div id="containerForm">
+            
+            <h2>Détails de la station</h2>
+            
+            <div class="textInfo">
+                <p class="infoStation">Adresse</p>
+                <p class="infoStation">Statut</p>
+                <p class="infoStation">Nombre de places</p>
+                <p class="infoStation">Nombre de vélos disponibles</p>
+            </div>
+            
+            <form class="formResa" method="post" action="?">
+                <div class="fieldset">
+                    <label for="Nom">Nom:</label>
+                    <input type="text" name="Nom" id="Nom" required />
+                </div>
+                <div class="fieldset">
+                    <label for="Prénom">Prénom:</label>
+                    <input type="text" name="Prénom" id="Prénom" required />
+                </div>
+                <input type="submit" value="RESERVER" id="button" />
+            </form>
+        
+        </div>
+    </section>
+
 
     
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="slideshow/slideshow.js"></script>	
+<script src="carte/ajax.js"></script>
+<script src="carte/carte.js"></script>	
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsVf4eo-4LINFolRJXk1Lge4aEU91hIk0&callback=initMap"
+type="text/javascript"></script>
 </body>
 </html>

@@ -1,6 +1,12 @@
 /* css du slider
 configuré pour mobile jusqu'à 480px
 adaptation tablette et écrans PC avec media Queries*/
+.elements_slide_slider1 {
+    width: 100%;
+    margin: 3% 0%;
+    border: solid #CB7372 3px;
+    border-radius: 10px;  
+}
 
 .elements_slide_slider1 {
     position: relative;
@@ -8,6 +14,7 @@ adaptation tablette et écrans PC avec media Queries*/
 
 .img_slider1  {
     width: 100%;  
+    border-radius: 5px;
 }
 
 .figcaption_slider1 {
@@ -19,7 +26,7 @@ adaptation tablette et écrans PC avec media Queries*/
     text-align: left;
     font-size: 20px; 
     color: #0d3866;
-    z-index: 10;     
+    z-index: 10; 
 }
 
 #figcaption_img1_slider1 {
@@ -50,6 +57,7 @@ adaptation tablette et écrans PC avec media Queries*/
     position: absolute;  
     width: 100%;
     background-color: rgba(224, 239, 255, 0.8); 
+    border-radius: 0px 0px 5px 5px;
 }
 
 .background_figcaption_slider1 {
@@ -79,7 +87,7 @@ adaptation tablette et écrans PC avec media Queries*/
 
 .fa-pause, .fa-play {
     position: absolute;
-    top: 5%;
+    top: 8%;
     right: 15%;
     font-size: 300%;
     color: #cb1a19;
@@ -107,8 +115,13 @@ adaptation tablette et écrans PC avec media Queries*/
     }
 }
 
-/* Pour écran Pde 801-1024px */
+/* Pour écran de 801-1024px */
 @media screen and (min-width: 801px) {
+    .elements_slide_slider1 {
+    width: 90%;
+    margin: 5% ;
+    }
+    
     .figcaption_slider1, #figcaption_img1_slider1  {
         font-size: 35px;
     }
@@ -125,6 +138,11 @@ adaptation tablette et écrans PC avec media Queries*/
 
 /* Pour écran PC 1025-1500px */
 @media screen and (min-width: 1025px) {
+    .elements_slide_slider1 {
+    width: 90%;
+    margin: 3% 5%;  
+    }
+    
     .figcaption_slider1, #figcaption_img1_slider1  {
         font-size: 50px;
     }
