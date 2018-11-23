@@ -29,9 +29,9 @@ function initMap() {
    }
 
     //d'apres exemple sur google - au click sur le marqueur, ca affiche les infos
-    function getStationInfo(markerX, listeStationX) {
+    function getStationInfo(markerX, listeX) {
     markerX.addListener('click', function() {
-        affichageInfoStation(listeStationX);
+        affichageInfoStation(listeX);
       });
   }
 }
