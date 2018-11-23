@@ -19,15 +19,14 @@ var Slider = {
         if(duration){
             this.duration = duration;
         }
-        this.slide(); //méthode pour faire fonctionner le slider, évite de l'appeler à la creation de l'objet
+        this.slide(); //méthode pour faire fonctionner le slider, évite de devoir l'appeler à la creation de l'objet
     },
 
     slide: function() {
         this.buttonPlay.hide();
         this.showDivs(this.slideIndex);//creation slider
-        this.buttonRight[0].addEventListener("click", this.right.bind(this));//bind permet de garder lien à right et pas au buttonRight, ne fonctionne pas avec jQuery, indice car considéré comme un tableau
+        this.buttonRight[0].addEventListener("click", this.right.bind(this));//bind permet de garder lien à right et pas au buttonRight - ne fonctionne pas avec jQuery - indice car considéré comme un tableau
         this.buttonLeft[0].addEventListener("click", this.left.bind(this));
-        this.keydown();//methode pour slider au clavier
         this.initCaroussel();//automatisation slider + play/pause
     },
 
@@ -62,19 +61,6 @@ var Slider = {
         this.plusDivs(+1);
     },
     
-    keydown: function(){
-        $("html").keypress(this.slideClavier());   
-    },
-    
-    slideClavier: function(){
-                if(this.keyCode==37){
-                        this.left.bind(this);
-                    };
-                if(this.keyCode==39){
-                        this.right.bind(this);
-                    };
-    },
-
     //initialisation, lance le carousel, gestion des boutons play/pause
     initCaroussel: function(){
         this.carousel();
@@ -101,7 +87,24 @@ var Slider = {
         this.buttonPause.show();
     }
 
-}
+};
+
+//Fonction pour slider avec le clavier - obligé de rester en procedural, jQuery ne passe pas
+function slideClavier(documentX,ObjectX){
+    documentX.addEventListener("keydown", function(){
+        if(event.keyCode==37){
+            ObjectX.left();
+        }
+    });
+    
+    documentX.addEventListener("keydown", function(){
+    if(event.keyCode==39){
+        ObjectX.right();
+    }
+});
+};
+    
+                    
 
 //Creation de l'objet
 var ensbleSlides = $(".elements_slide_slider1");
@@ -111,6 +114,6 @@ var buttonPause = $(".fa-pause");
 var buttonPlay = $(".fa-play");
 
 var slider1 = Object.create(Slider);
-slider1.init(ensbleSlides, buttonLeft, buttonRight, buttonPause, buttonPlay, 5000)
-    
-     
+slider1.init(ensbleSlides, buttonLeft, buttonRight, buttonPause, buttonPlay, 5000);
+slideClavier(document,slider1);
+

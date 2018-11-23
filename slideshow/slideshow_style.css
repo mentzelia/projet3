@@ -87,14 +87,11 @@ adaptation tablette et écrans PC avec media Queries*/
 
 .fa-pause, .fa-play {
     position: absolute;
-    top: 8%;
-    right: 15%;
-    font-size: 300%;
+    top: 4%;
+    right: 7%;
+    font-size: 100%;
     color: #cb1a19;
 }
-
-
-
 
 
 
@@ -112,6 +109,12 @@ adaptation tablette et écrans PC avec media Queries*/
     .fa-chevron-circle-left, .fa-chevron-circle-right {
         font-size: 100%;
         top: 20%;
+    }
+    
+    .fa-pause, .fa-play {
+    top: 6%;
+    right: 9%;
+    font-size: 180%;
     }
 }
 
@@ -134,6 +137,21 @@ adaptation tablette et écrans PC avec media Queries*/
         font-size: 200%;
         top: 25%;
     }
+    
+    .fa-chevron-circle-left {
+        left: 7%;
+    }
+    
+    .fa-chevron-circle-right {
+        right: 7%;
+    }
+    
+     .fa-pause, .fa-play {
+    top: 10%;
+    right: 10%;
+    font-size: 220%;
+}
+
 }
 
 /* Pour écran PC 1025-1500px */
