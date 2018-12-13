@@ -20,6 +20,7 @@ var Slider = {
             this.duration = duration;
         }
         this.slide(); //méthode pour faire fonctionner le slider, évite de devoir l'appeler à la creation de l'objet
+        this.slideClavier();
     },
 
     slide: function() {
@@ -85,24 +86,24 @@ var Slider = {
         setTimeout(this.carousel.bind(this), this.duration);
         this.buttonPlay.hide();
         this.buttonPause.show();
-    }
-
-};
-
-//Fonction pour slider avec le clavier - obligé de rester en procedural, jQuery ne passe pas
-function slideClavier(documentX,ObjectX){
-    documentX.addEventListener("keydown", function(){
-        if(event.keyCode==37){
-            ObjectX.left();
-        }
-    });
+    },
     
-    documentX.addEventListener("keydown", function(){
-    if(event.keyCode==39){
-        ObjectX.right();
+    //Fonction pour slider avec le clavier - obligé de rester en procedural, jQuery ne passe pas
+    slideClavier: function(){
+        document.addEventListener("keydown", function(event){
+            if(event.keyCode===37){
+                this.left();
+            }else{
+                if(event.keyCode===39){
+                    this.right();
+                }
+            }
+        }.bind(this));
     }
-});
+
 };
+
+
     
                     
 
@@ -115,5 +116,5 @@ var buttonPlay = $(".fa-play");
 
 var slider1 = Object.create(Slider);
 slider1.init(ensbleSlides, buttonLeft, buttonRight, buttonPause, buttonPlay, 5000);
-slideClavier(document,slider1);
+
 

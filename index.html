@@ -1,13 +1,11 @@
 <!DOCTYPE HTML>
 <html lang="fr">
 <head>
-	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Veloc: location de vélos à Nantes</title>
-	<link rel="stylesheet" href="reset.css"/>
+	<
 	<link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="slideshow/slideshow_style.css" />
     <link rel="stylesheet" href="carte/carte.css" />
+    <link rel="stylesheet" href="canva/canvas.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     
 </head>
@@ -64,7 +62,7 @@
         
         <div id="containerForm">
             
-            <h2>Détails de la station</h2>
+            <h2 class="titreStationDetails">Détails de la station</h2>
             
             <div class="textInfo">
                 <p class="infoStation" id="adresse">Adresse</p>
@@ -76,17 +74,19 @@
             <form class="formResa" method="post" action="?">
                 <div class="fieldset">
                     <label for="Nom">Nom:</label>
-                    <input type="text" name="Nom" id="Nom" required />
+                    <input type="text" name="Nom" id="nom" required />
                 </div>
                 <div class="fieldset">
                     <label for="Prénom">Prénom:</label>
-                    <input type="text" name="Prénom" id="Prénom" required />
+                    <input type="text" name="Prénom" id="prenom" required />
                 </div>
                 <input type="submit" value="RESERVER" id="button" />
             </form>
         
         </div>
     </section>
+    
+    
 
 
     
@@ -95,5 +95,7 @@
 <script src="carte/ajax.js"></script>
 <script src="carte/carte.js"></script>	
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsVf4eo-4LINFolRJXk1Lge4aEU91hIk0&callback=initMap"></script>
+<script src="timer/timer.js"></script>
+<script src="canva/canvas.js"></script>
 </body>
 </html>

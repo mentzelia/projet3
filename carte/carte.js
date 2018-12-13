@@ -46,9 +46,13 @@ function affichageInfoStation(listeX){
     
   document.getElementById("places").textContent = "Nombres de Place : " + listeX.available_bike_stands;
     
-  //statut ouvert ou fermé -> voir Maxime autre statut?
+  //statut ouvert ou fermé
   if (listeX.status = "OPEN"){
     statut = "OUVERT";
   } else statut = "FERME";
    
 };
+
+//Au clic sur Réserver ouvre fenetre signature + enregistre données Nom/Prénom
+document.getElementById("button").addEventListener("click", function () {              window.open("file:///C:/Users/mentz/Desktop/Project%20OCR/Projet%20Location%20velos/canva/canvas.html");
+});

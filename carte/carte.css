@@ -2,7 +2,7 @@
 configuré pour mobile jusqu'à 480px
 adaptation tablette et écrans PC avec media Queries*/
 
-#carte, form {
+#carte, .formResa {
     display: flex;
     flex-direction: column;
 }
@@ -18,24 +18,25 @@ adaptation tablette et écrans PC avec media Queries*/
 #containerForm {
     position: relative;
     box-shadow: 10px 10px 10px #660D0D;
+    padding-bottom: 1%;
 }
 
 .textInfo {
     margin-top: 4%;
 }
 
-h2, .infoStation, label {
+.titreStationDetails, .infoStation, label {
     font-family: 'catamaranextrabold', arial, sans-serif;
 }
 
-h2 {
+.titreStationDetails {
     font-size: 25px;
     color: #660D0D;
     /*toutes les propriétes ci dessous permettent de superposer le texte sur la bordure */
     position: absolute;
     padding: 0% 1%;
     left: 5%;
-    bottom: 97%;
+    bottom: 90%;
     background-color: #e4dfd2;
       
 }
@@ -85,8 +86,8 @@ label {
 /* Media Queries responsive */
 /* Pour tablette 481-800px */
 @media screen and (min-width: 481px) {
-    h2 {
-        bottom: 98%;
+    .titreStationDetails {
+        bottom: 93%;
     }
     
     .fieldset {
@@ -135,7 +136,7 @@ label {
 }
 
 /* Pour écran PC de + de 1025 */
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 1025px) { 
     .fieldset {
         margin-right: 43%;
     }
