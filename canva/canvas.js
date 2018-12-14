@@ -1,12 +1,12 @@
 var Canvas = {
     init: function(canvas, color, line, saveButton, clearButton) {
         //mise en place du canva
-        this.canvas = document.getElementById("canvas");
+        this.canvas = document.getElementById(canvas);
         this.context = this.canvas.getContext("2d");
         this.context.strokeStyle = color;
         this.context.lineWidth = line;
-        this.saveButton = document.getElementById("save");
-        this.clearButton = document.getElementById("clear");
+        this.saveButton = document.getElementById(saveButton);
+        this.clearButton = document.getElementById(clearButton);
      
         
         //gestion souris
@@ -145,6 +145,8 @@ var Canvas = {
         this.saveButton.addEventListener("click", function () {
             console.log("test");
             var dataUrl = this.canvas.toDataURL();
+            var image = document.getElementById("imageSignature");
+            image.src = dataUrl;
         }.bind(this));
     },
     

@@ -54,5 +54,13 @@ function affichageInfoStation(listeX){
 };
 
 //Au clic sur Réserver ouvre fenetre signature + enregistre données Nom/Prénom
-document.getElementById("button").addEventListener("click", function () {              window.open("file:///C:/Users/mentz/Desktop/Project%20OCR/Projet%20Location%20velos/canva/canvas.html");
+document.getElementById("button").addEventListener("click", function (e) {
+    var prenom = document.getElementById("prenom");
+    var nom = document.getElementById("nom");
+    if (nom.value.length !==0) {
+        if (prenom.value.length !==0) {
+            e.preventDefault(); //empêche le navigateur de rafraichir
+            document.getElementById("signatureDiv").style.display = "flex";
+        };
+    };
 });

@@ -9,18 +9,18 @@
     align-items: center;
 }
 
-h1 {
+.SignatureTitre {
     font-size: 40px; 
     color: #0d3866;
 }
 
 
-h1, p {
+.SignatureTitre, p {
     margin-top: 1%;
     margin-bottom: 1%;    
 }
 
-h1, p, input {
+.SignatureTitre, p, input {
     font-family: 'catamaranextrabold', arial, sans-serif;
 }
 

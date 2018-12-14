@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="fr">
 <head>
-	<
 	<link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="slideshow/slideshow_style.css" />
     <link rel="stylesheet" href="carte/carte.css" />
@@ -86,6 +85,28 @@
         </div>
     </section>
     
+    <section id="CanvasSection">
+       <div class="signature" id="signatureDiv" style="display: none">
+            <div class="text">
+                <h2 class="SignatureTitre">Votre signature</h2>
+                <p>Veuillez saisir votre signature dans ce cadre pour valider votre réservation</p>
+            </div>
+
+            <div class="canvasContainer">
+                <canvas id="canvas" width="500" height="300">Votre navigateur ne supporte pas l'élement canva</canvas>
+                <div class= "buttons">
+                    <input type="submit" value="ENVOYER" id="save" />
+                    <input type="submit" value="EFFACER" id="clear" />
+                </div>
+            </div>
+        </div>
+    
+        <div id="imageContainer">
+            <img id="imageSignature" />
+        </div>
+    </section>
+    
+    
     
 
 
@@ -95,7 +116,7 @@
 <script src="carte/ajax.js"></script>
 <script src="carte/carte.js"></script>	
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsVf4eo-4LINFolRJXk1Lge4aEU91hIk0&callback=initMap"></script>
-<script src="timer/timer.js"></script>
+<!-- <script src="timer/timer.js"></script> -->
 <script src="canva/canvas.js"></script>
 </body>
 </html>
