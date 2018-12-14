@@ -2,6 +2,7 @@ var map;
 var listeStation = [];
 var marker;
 var statut;
+var testMarkerSelect = false;
 
 //Adresse JC Decaux pour récupérer la liste des Stations à Nantes
 var serveurUrl = "https://api.jcdecaux.com/vls/v1/stations?contract=nantes&apiKey=1232ae5d7f399bf501c14c35dec06d0a8a71b917";
@@ -26,15 +27,17 @@ function initMap() {
          var pos = {lat: listeStation[i].position.lat, lng: listeStation[i].position.lng};
          var marker = new google.maps.Marker({position: pos, map: map});
          getStationInfo(marker, listeStation[i]);
-   }
-
+   };
+    
     //d'apres exemple sur google - au click sur le marqueur, ca affiche les infos
     function getStationInfo(markerX, listeX) {
     markerX.addListener('click', function() {
         affichageInfoStation(listeX);
+        testMarkerSelect = true;
       });
-  }
-}
+  };
+};
+
 
 //ajout des infos au texte d origine
 function affichageInfoStation(listeX){
@@ -57,10 +60,21 @@ function affichageInfoStation(listeX){
 document.getElementById("button").addEventListener("click", function (e) {
     var prenom = document.getElementById("prenom");
     var nom = document.getElementById("nom");
-    if (nom.value.length !==0) {
-        if (prenom.value.length !==0) {
-            e.preventDefault(); //empêche le navigateur de rafraichir
-            document.getElementById("signatureDiv").style.display = "flex";
+    var adresse = document.getElementById("adresse");
+    
+    e.preventDefault(); //empêche le navigateur de rafraichir
+    
+    if (testMarkerSelect = false) {
+        console.log("Erreur. Veuillez sélectionner une station.");
+    } else {
+        if (nom.value.length !==0) {
+            if (prenom.value.length !==0) {
+                localStorage.setItem("prenom", prenom.value);//à verifier?
+                localStorage.setItem("nom", nom.value);//à verifier?
+                e.preventDefault(); //empêche le navigateur de rafraichir
+                document.getElementById("signatureDiv").style.display = "flex";   
+            };
         };
     };
 });
+
