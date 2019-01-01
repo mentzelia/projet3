@@ -62,8 +62,6 @@ document.getElementById("button").addEventListener("click", function (e) {
     var nom = document.getElementById("nom");
     var adresse = document.getElementById("adresse");
     
-    e.preventDefault(); //empêche le navigateur de rafraichir
-    
     if (testMarkerSelect = false) {
         console.log("Erreur. Veuillez sélectionner une station.");
     } else {
