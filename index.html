@@ -70,7 +70,7 @@
                 <p class="infoStation" id="veloDispo">Nombre de vélos disponibles</p>
             </div>
             
-            <form class="formResa" method="post" action="?">
+            <form class="formResa" id="formResa" method="post" action="?">
                 <div class="fieldset">
                     <label for="Nom" id="labelNom">Nom:</label>
                     <input type="text" name="Nom" id="nom" required />
@@ -84,6 +84,11 @@
         
         </div>
     </section>
+    
+    <section id="texteReservation">
+        <p id="texteErreur"></p>
+    </section> 
+    
     
     <section id="CanvasSection">
        <div class="signature" id="signatureDiv" style="display: none">

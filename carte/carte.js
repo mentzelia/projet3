@@ -1,7 +1,8 @@
 var map;
 var listeStation = [];
 var marker;
-var statut;
+var statut = null;
+var disponibilite;
 var testMarkerSelect = false;
 
 //Adresse JC Decaux pour récupérer la liste des Stations à Nantes
@@ -33,6 +34,7 @@ function initMap() {
     function getStationInfo(markerX, listeX) {
     markerX.addListener('click', function() {
         affichageInfoStation(listeX);
+        document.getElementById("texteErreur").textContent = "   ";
         testMarkerSelect = true;
       });
   };
@@ -41,38 +43,76 @@ function initMap() {
 
 //ajout des infos au texte d origine
 function affichageInfoStation(listeX){
-  document.getElementById("adresse").textContent = "Adresse : " + listeX.address + " - " + listeX.contract_name;
-   
-  document.getElementById("statut").textContent = "Statut : " + statut;
+    document.getElementById("adresse").textContent = "Adresse : " + listeX.address + " - " + listeX.contract_name;
     
-  document.getElementById("veloDispo").textContent = "Nombres de vélos disponibles : " + listeX.available_bikes;
+    //statut vélo dispo
+    if (listeX.available_bikes > 0 ){
+        disponibilite = "OK";
+    } else disponibilite = "NOK";
     
-  document.getElementById("places").textContent = "Nombres de Place : " + listeX.available_bike_stands;
+    document.getElementById("veloDispo").textContent = "Nombres de vélos disponibles : " + listeX.available_bikes;
     
-  //statut ouvert ou fermé
-  if (listeX.status = "OPEN"){
-    statut = "OUVERT";
-  } else statut = "FERME";
+    document.getElementById("places").textContent = "Nombres de Place : " + listeX.available_bike_stands;
+    
+    //statut ouvert ou fermé
+    if (listeX.status === "OPEN"){
+        statut = "OUVERT";
+    } else statut = "FERME";
+    
+    document.getElementById("statut").textContent = "Statut : " + statut;
    
 };
 
 //Au clic sur Réserver ouvre fenetre signature + enregistre données Nom/Prénom
-document.getElementById("button").addEventListener("click", function (e) {
+document.getElementById("button").addEventListener("click", function(e) {
     var prenom = document.getElementById("prenom");
     var nom = document.getElementById("nom");
     var adresse = document.getElementById("adresse");
+    e.preventDefault(); //empêche le navigateur de rafraichir
     
-    if (testMarkerSelect = false) {
-        console.log("Erreur. Veuillez sélectionner une station.");
+    if (statut !== null) {     
+        if (statut === "OUVERT") {
+            if (disponibilite === "OK") {
+                if (nom.value.length !==0) {
+                    if (prenom.value.length !==0) {
+                        document.getElementById("texteErreur").textContent = " ";
+                        document.getElementById("signatureDiv").style.display = "flex";
+                        
+                    } else {
+                        document.getElementById("texteErreur").textContent = "Veuillez renseigner votre prénom.";
+                    }
+                } else {
+                    document.getElementById("texteErreur").textContent = "Veuillez renseigner votre nom."; 
+                } 
+            } else {
+                document.getElementById("texteErreur").textContent = "Il n'y a plus de vélos disponibles. Veuillez sélectionner une autre station.";   
+            }
+        } else {
+            document.getElementById("texteErreur").textContent = "Cette station n'est pas disponible. Veuillez en sélectionner une autre.";
+        }
     } else {
-        if (nom.value.length !==0) {
-            if (prenom.value.length !==0) {
-                localStorage.setItem("prenom", prenom.value);//à verifier?
-                localStorage.setItem("nom", nom.value);//à verifier?
-                e.preventDefault(); //empêche le navigateur de rafraichir
-                document.getElementById("signatureDiv").style.display = "flex";   
-            };
-        };
+        document.getElementById("texteErreur").textContent = "Erreur. Veuillez sélectionner une station.";
     };
+    
 });
+    
+
+    
+    
+    
+    
+        
+   /*     
+        
+        //localStorage.setItem("prenom", prenom.value);//à verifier?
+        //localStorage.setItem("nom", nom.value);//à verifier?
+        
+*/
+
+
+
+
+
+
+   
 
