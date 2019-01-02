@@ -40,6 +40,9 @@ function initMap() {
   };
 };
 
+//Champs préremplis à l'ouverture du navigateur si a déjà été rempli une fois
+document.getElementById("prenom").value = localStorage.getItem("prenom");
+document.getElementById("nom").value = localStorage.getItem("nom");
 
 //ajout des infos au texte d origine
 function affichageInfoStation(listeX){
@@ -76,6 +79,10 @@ document.getElementById("button").addEventListener("click", function(e) {
                 if (nom.value.length !==0) {
                     if (prenom.value.length !==0) {
                         document.getElementById("texteErreur").textContent = " ";
+                        //nom et prénom gardés en mémoire pour prochaine reservation
+                        localStorage.setItem("prenom", prenom.value);
+                        localStorage.setItem("nom", nom.value);
+                        
                         document.getElementById("signatureDiv").style.display = "flex";
                         
                     } else {
@@ -96,18 +103,6 @@ document.getElementById("button").addEventListener("click", function(e) {
     
 });
     
-
-    
-    
-    
-    
-        
-   /*     
-        
-        //localStorage.setItem("prenom", prenom.value);//à verifier?
-        //localStorage.setItem("nom", nom.value);//à verifier?
-        
-*/
 
 
 
