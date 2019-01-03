@@ -14,8 +14,6 @@ var Canvas = {
         this.mousePosition = {x:0, y:0};
         this.lastPosition = this.mousePosition;
 
-       
-        
         
         this.evenementSouris();
         this.animationNavigateur();
@@ -143,7 +141,6 @@ var Canvas = {
     //enregistrer en data Url
     saveCanvas: function() {
         this.saveButton.addEventListener("click", function () {
-            console.log("test");
             var dataUrl = this.canvas.toDataURL();
             var image = document.getElementById("imageSignature");
             image.src = dataUrl;
@@ -156,6 +153,17 @@ var Canvas = {
 
 var canvas1 = Object.create(Canvas);
 canvas1.init("canvas", "#000", "1", "save", "clear");
+
+
+document.getElementById("save").addEventListener("click", function() {
+    var New = document.createElement("section");
+    New.id = "timer";
+    document.body.appendChild(New);
+    
+    
+}) ;
+
+
 
 
 
