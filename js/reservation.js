@@ -1,3 +1,7 @@
+//Champs préremplis à l'ouverture du navigateur si a déjà été rempli une fois
+document.getElementById("prenom").value = localStorage.getItem("prenom");
+document.getElementById("nom").value = localStorage.getItem("nom");
+
 //Au clic sur Réserver: vérifie conditions + ouvre fenetre signature + enregistre données Nom/Prénom pour prochaine fois
 document.getElementById("button").addEventListener("click", function(e) {
     var prenom = document.getElementById("prenom");

@@ -78,10 +78,6 @@ var Timer = {
 };
 
 
-//Creation objet
-
-var timer1 = Object.create(Timer);
-timer1.init(20, 0);
 
 
 
