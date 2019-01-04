@@ -1,0 +1,137 @@
+/* css de la section map
+configuré pour mobile jusqu'à 480px
+adaptation tablette et écrans PC avec media Queries*/
+
+#carte, .formResa {
+    display: flex;
+    flex-direction: column;
+}
+
+#map {
+    height: 400px;
+}
+
+#containerForm {
+    height: auto;
+}
+
+
+#map, #containerForm {
+    width: auto;
+    margin: 3% 0%;
+    border: solid #CB7372 3px;
+    border-radius: 10px;
+}
+
+#containerForm {
+    position: relative;
+    box-shadow: 10px 10px 10px #660D0D;
+    padding-bottom: 1%;
+}
+
+.textInfo {
+    margin-top: 4%;
+}
+
+.titreStationDetails, .infoStation, label {
+    font-family: 'catamaranextrabold', arial, sans-serif;
+}
+
+.titreStationDetails {
+    font-size: 25px;
+    color: #660D0D;
+    /*toutes les propriétes ci dessous permettent de superposer le texte sur la bordure */
+    position: absolute;
+    padding: 0% 1%;
+    left: 5%;
+    bottom: 90%;
+    background-color: #e4dfd2;
+      
+}
+
+.infoStation, label {
+    font-size: 17px;
+}
+
+.infoStation, .fieldset {
+    margin-left: 5px;
+    padding:1%;     
+}
+
+#labelNom {
+    margin-right: 35px;
+}
+
+#labelPrenom {
+    margin-right: 15px;
+}
+
+form {
+    margin-top: 2%;
+}
+
+.fieldset {
+    display: flex;
+    flex-direction: row;    
+    justify-content: flex-start;
+    width: auto;
+    height: auto;
+}
+
+#nom, #prenom {
+    margin-top: 0%;
+}
+
+
+#button {
+    width: 120px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+    background-color: #1971CB;
+    border-radius: 7px;
+    color: #fff;
+    font-family: 'catamaranbold', arial, sans-serif;
+    font-size: 100%;
+    padding: 2px 5px;
+    box-shadow: 3px 3px 3px #0D3866;
+}
+
+
+
+
+/* Media Queries responsive */
+/* Pour tablette 481-800px */
+@media screen and (min-width: 481px) {
+    .titreStationDetails {
+        bottom: 93%;
+    }
+    
+    #button:hover {
+    background-color: #CB1A19;
+    }
+}
+
+/* Pour écran PC de 801-950px */
+@media screen and (min-width: 801px) {
+    
+    #carte {
+        flex-flow: row nowrap;
+    }
+    
+    #map, #containerForm {
+    width: 45%;
+    margin: 5%;
+    }
+    
+}
+
+/* Pour écran PC de 951-1024px */
+@media screen and (min-width: 901px) {
+    
+
+}
+
+/* Pour écran PC de + de 1025 */
+@media screen and (min-width: 1025px) { 
+    
+}
