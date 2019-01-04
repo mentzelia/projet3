@@ -43,5 +43,7 @@ document.getElementById("button").addEventListener("click", function(e) {
 var canvas1 = Object.create(Canvas);
 canvas1.init("canvas", "#000", "1", "save", "clear");
 
-
+//Objet timer
+var timer1 = Object.create(Timer);
+timer1.init(20, 0);
 
