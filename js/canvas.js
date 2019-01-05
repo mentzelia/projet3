@@ -151,8 +151,7 @@ var Canvas = {
    
 };
 
-var canvas1 = Object.create(Canvas);
-canvas1.init("canvas", "#000", "1", "save", "clear");
+
 
 
 
