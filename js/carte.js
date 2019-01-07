@@ -43,6 +43,8 @@ function initMap() {
 
 //ajout des infos au texte d origine
 function affichageInfoStation(listeX){
+    document.getElementById("nomStation").textContent = "Nom: " + listeX.name;
+     
     document.getElementById("adresse").textContent = "Adresse : " + listeX.address + " - " + listeX.contract_name;
     
     //statut vélo dispo

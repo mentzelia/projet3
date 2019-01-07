@@ -2,12 +2,15 @@
 document.getElementById("prenom").value = localStorage.getItem("prenom");
 document.getElementById("nom").value = localStorage.getItem("nom");
 
+//Recuperer infos SessionStorage
+document.getElementById("imageSignature").value = sessionStorage.getItem("signature");
 
 //Au clic sur Réserver: vérifie conditions + ouvre fenetre signature + enregistre données Nom/Prénom pour prochaine fois
 document.getElementById("button").addEventListener("click", function(e) {
     var prenom = document.getElementById("prenom");
     var nom = document.getElementById("nom");
     var adresse = document.getElementById("adresse");
+    var image = document.getElementById("imageSignature");
     e.preventDefault(); //empêche le navigateur de rafraichir
     
     if (statut !== null) {     
@@ -19,6 +22,9 @@ document.getElementById("button").addEventListener("click", function(e) {
                         //nom et prénom gardés en mémoire pour prochaine reservation
                         localStorage.setItem("prenom", prenom.value);
                         localStorage.setItem("nom", nom.value);
+                        
+                        //enregistre temporairement signature + reservation (timer)
+                        sessionStorage.setItem("signature", image.value);
                         
                         document.getElementById("signatureDiv").style.display = "flex";
                         

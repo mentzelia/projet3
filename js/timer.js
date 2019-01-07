@@ -1,28 +1,3 @@
-//Objet texte timer
-var Reservation= {
-    init: function(elementHtmlSection) {
-        this.elementHtmlSection = elementHtmlSection;
-        this.ajoutElement();
-    },
-
-    ajoutElement: function() {
-        var New = document.createElement("p");
-        New.id = "reservation";
-        New.textContent = "Votre réservation expire dans ";
-        this.elementHtmlSection.appendChild(New);
-    },
-} ;
-
-//Objet texte timer
-var elementHtmlSection = document.getElementById("timer"); 
-var reservation1 = Object.create(Reservation);
-reservation1.init(elementHtmlSection);
-                                             
-
-
-
-
-                                          
 //Objet timer
 var Timer = { 
     init: function(minute, seconde) {
