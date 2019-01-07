@@ -2,6 +2,7 @@
 document.getElementById("prenom").value = localStorage.getItem("prenom");
 document.getElementById("nom").value = localStorage.getItem("nom");
 
+
 //Au clic sur Réserver: vérifie conditions + ouvre fenetre signature + enregistre données Nom/Prénom pour prochaine fois
 document.getElementById("button").addEventListener("click", function(e) {
     var prenom = document.getElementById("prenom");
@@ -45,7 +46,7 @@ document.getElementById("button").addEventListener("click", function(e) {
 
 //Objet canva
 var canvas1 = Object.create(Canvas);
-canvas1.init("canvas", "#000", "1", "save", "clear");
+canvas1.init("canvas", "#000", "1", "save", "clear", "signatureDiv");
 
 //Objet timer
 var timer1 = Object.create(Timer);
