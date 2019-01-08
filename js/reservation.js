@@ -4,6 +4,7 @@ document.getElementById("nom").value = localStorage.getItem("nom");
 
 //Recuperer infos SessionStorage
 document.getElementById("imageSignature").value = sessionStorage.getItem("signature");
+document.getElementById("timer").value = sessionStorage.getItem("timer");
 
 //Au clic sur Réserver: vérifie conditions + ouvre fenetre signature + enregistre données Nom/Prénom pour prochaine fois
 document.getElementById("button").addEventListener("click", function(e) {
@@ -23,12 +24,15 @@ document.getElementById("button").addEventListener("click", function(e) {
                         localStorage.setItem("prenom", prenom.value);
                         localStorage.setItem("nom", nom.value);
                         
+                        //Apparition section timer et canva
+                        document.getElementById("signatureDiv").style.display = "flex";
+                        document.getElementById("timer").style.display= "flex";
+                        
                         //enregistre temporairement signature + reservation (timer)
                         sessionStorage.setItem("signature", image.value);
+                        sessionStorage.setItem ("timer", timer.value);
                         
-                        document.getElementById("signatureDiv").style.display = "flex";
                         
-                        document.getElementById("timer").style.display= "flex";
                         
                     } else {
                         document.getElementById("texteErreur").textContent = "Veuillez renseigner votre prénom.";
