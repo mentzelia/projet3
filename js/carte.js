@@ -45,7 +45,7 @@ function initMap() {
 //ajout des infos au texte d origine
 function affichageInfoStation(listeX){
     nomStationAPI = listeX.name.split("-");
-    document.getElementById("nomStation").textContent = "Nom: " + nomStationAPI[1];
+    document.getElementById("detailNomStation").textContent = nomStationAPI[1];
      
     document.getElementById("adresse").textContent = "Adresse : " + listeX.address + " - " + listeX.contract_name;
     
