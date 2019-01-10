@@ -4,6 +4,7 @@ var marker;
 var statut = null;
 var disponibilite;
 var testMarkerSelect = false;
+var nomStationAPI;
 
 //Adresse JC Decaux pour récupérer la liste des Stations à Nantes
 var serveurUrl = "https://api.jcdecaux.com/vls/v1/stations?contract=nantes&apiKey=1232ae5d7f399bf501c14c35dec06d0a8a71b917";
@@ -43,7 +44,8 @@ function initMap() {
 
 //ajout des infos au texte d origine
 function affichageInfoStation(listeX){
-    document.getElementById("nomStation").textContent = "Nom: " + listeX.name;
+    nomStationAPI = listeX.name.split("-");
+    document.getElementById("nomStation").textContent = "Nom: " + nomStationAPI[1];
      
     document.getElementById("adresse").textContent = "Adresse : " + listeX.address + " - " + listeX.contract_name;
     
