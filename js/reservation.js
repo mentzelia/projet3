@@ -2,19 +2,31 @@
 document.getElementById("prenom").value = localStorage.getItem("prenom");
 document.getElementById("nom").value = localStorage.getItem("nom");
 
-//Recuperer infos SessionStorage
-document.getElementById("imageSignature").value = sessionStorage.getItem("signature");
-document.getElementById("timer").value = sessionStorage.getItem("timer");
-
 //Vérification si une réservation a déja été faite et si c'est le cas alors affichage du timer et de la signature. Impossible de faire nouvelle réservation.
 var signatureReservation = sessionStorage.getItem("signature");
 
 if (signatureReservation !== null){
-    var image = document.getElementById("imageSignature");
-    image.src = signatureReservation;
     document.getElementById("button").addEventListener("click", function(e) {
         e.preventDefault();
     });
+        
+    //Affichage Image signature sauvegardée dans session Storage
+    var image = document.getElementById("imageSignature");
+    image.src = signatureReservation;
+
+    //Objet texte timer
+    document.getElementById("timer").style.display = "flex";
+    var elementHtmlSection = document.getElementById("timer"); 
+    var reservation1 = Object.create(Reservation);
+    reservation1.init(elementHtmlSection);
+
+    //Creation objet Timer lors du rafraichissement de la page
+    //var timerRafraichi = Object.create(Timer);
+    //timerRafraichi.init(10, 0);
+    
+    var timerRafraichi = Object.create(Timer);
+    timerRafraichi.init(10, 0);
+    
 } else {
 
     //Au clic sur Réserver: vérifie conditions + ouvre fenetre signature + enregistre données Nom/Prénom pour prochaine fois
@@ -38,10 +50,6 @@ if (signatureReservation !== null){
 
                             //Apparition section canva
                             document.getElementById("signatureDiv").style.display = "flex";
-
-
-
-
 
                         } else {
                             document.getElementById("texteErreur").textContent = "Veuillez renseigner votre prénom.";
@@ -74,7 +82,7 @@ if (signatureReservation !== null){
 
         //enregistre temporairement signature + reservation (timer)
         sessionStorage.setItem("signature", img.src);
-        sessionStorage.setItem ("timer", timer.value);
+        sessionStorage.setItem ("timer", timer);
 
         //Objet texte timer
         var elementHtmlSection = document.getElementById("timer"); 
