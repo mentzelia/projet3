@@ -11,7 +11,7 @@ document.getElementById("button").addEventListener("click", function(e) {
     var prenom = document.getElementById("prenom");
     var nom = document.getElementById("nom");
     var adresse = document.getElementById("adresse");
-    var image = document.getElementById("imageSignature");
+    
     e.preventDefault(); //empêche le navigateur de rafraichir
     
     if (statut !== null) {     
@@ -21,16 +21,14 @@ document.getElementById("button").addEventListener("click", function(e) {
                     if (prenom.value.length !==0) {
                         document.getElementById("texteErreur").textContent = " ";
                         //nom et prénom gardés en mémoire pour prochaine reservation
+                        
                         localStorage.setItem("prenom", prenom.value);
                         localStorage.setItem("nom", nom.value);
                         
-                        //Apparition section timer et canva
+                        //Apparition section canva
                         document.getElementById("signatureDiv").style.display = "flex";
-                        document.getElementById("timer").style.display= "flex";
                         
-                        //enregistre temporairement signature + reservation (timer)
-                        sessionStorage.setItem("signature", image.value);
-                        sessionStorage.setItem ("timer", timer.value);
+                    
                         
                         
                         
@@ -58,7 +56,22 @@ document.getElementById("button").addEventListener("click", function(e) {
 var canvas1 = Object.create(Canvas);
 canvas1.init("canvas", "#000", "1", "save", "clear", "signatureDiv");
 
-//Objet timer
-var timer1 = Object.create(Timer);
-timer1.init(20, 0);
+document.getElementById("save").addEventListener("click", function(e) {
+    var img = document.getElementById("imageSignature");
+    
+    document.getElementById("timer").style.display= "flex";
+    
+    //enregistre temporairement signature + reservation (timer)
+    sessionStorage.setItem("signature", img.src);
+    sessionStorage.setItem ("timer", timer.value);
+
+    //Objet texte timer
+    var elementHtmlSection = document.getElementById("timer"); 
+    var reservation1 = Object.create(Reservation);
+    reservation1.init(elementHtmlSection);
+
+    //Objet timer
+    var timer1 = Object.create(Timer);
+    timer1.init(20, 0);
+});
 
