@@ -144,7 +144,7 @@ var Canvas = {
     //enregistrer en data Url
     saveCanvas: function() {
         this.saveButton.addEventListener("click", function () {
-            var dataUrl = this.canvas.toDataURL(); //methode qui retourne la representation d'une image
+            var dataUrl = this.canvas.toDataURL(); //methode qui enregistre la signature du canva en image
             var image = document.getElementById("imageSignature");
             image.src = dataUrl;
             this.sectionCanva.style.display = "none";
