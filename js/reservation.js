@@ -1,3 +1,20 @@
+//Objet texte timer
+var Reservation= {
+    init: function(elementHtmlSection) {
+        this.elementHtmlSection = elementHtmlSection;
+        this.ajoutElement();
+    },
+
+    ajoutElement: function() {
+        console.log(document.getElementById("nomStation"));
+        var New = document.createElement("p");
+        New.id = "reservation";
+        New.textContent = "Vélo réservé à la station "+ document.getElementById("detailNomStation").textContent +" par " + prenom.value + " " + nom.value + "." + "Votre réservation expire dans ";
+        this.elementHtmlSection.appendChild(New);
+    },
+};
+
+
 //Champs préremplis à l'ouverture du navigateur si a déjà été rempli une fois
 document.getElementById("prenom").value = localStorage.getItem("prenom");
 document.getElementById("nom").value = localStorage.getItem("nom");
@@ -17,15 +34,25 @@ if (signatureReservation !== null){
     //Objet texte timer
     document.getElementById("timer").style.display = "flex";
     var elementHtmlSection = document.getElementById("timer"); 
-    var reservation1 = Object.create(Reservation);
-    reservation1.init(elementHtmlSection);
-
-    //Creation objet Timer lors du rafraichissement de la page
-    //var timerRafraichi = Object.create(Timer);
-    //timerRafraichi.init(10, 0);
+    var reservationRafraichie = Object.create(Reservation);
+    reservationRafraichie.init(elementHtmlSection);
     
+    //Récupération Date d'expiration réservation
+    var DateExpiration = Date.parse(sessionStorage.getItem("dateExp")); // dateExp est un string dans session Storage. Transforme en Date le string dateExp.
+    
+    //Date raffraichissement
+    var DateRafraichissement = new Date();
+    
+    var tpsRestSec = (DateExpiration-DateRafraichissement)/1000;
+    
+    var minRestante = Math.floor(tpsRestSec/60);
+    var secRestante = Math.floor(tpsRestSec%60);
+    
+    console.log("il reste "+minRestante+"min et "+secRestante+"sec.");
+
+    //Creation objet Timer lors du rafraichissement de la page    
     var timerRafraichi = Object.create(Timer);
-    timerRafraichi.init(10, 0);
+    timerRafraichi.init(minRestante, secRestante);
     
 } else {
 
@@ -82,8 +109,13 @@ if (signatureReservation !== null){
 
         //enregistre temporairement signature + reservation (timer)
         sessionStorage.setItem("signature", img.src);
-        sessionStorage.setItem ("timer", timer);
-
+        
+        //enregistrer date d'expiration de la reservation
+        var DateClic = new Date();
+        var DateExpiration = new Date (DateClic);
+        DateExpiration.setMinutes(DateClic.getMinutes() + 20);
+        sessionStorage.setItem("dateExp", DateExpiration);
+        
         //Objet texte timer
         var elementHtmlSection = document.getElementById("timer"); 
         var reservation1 = Object.create(Reservation);
