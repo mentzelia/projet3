@@ -6,7 +6,6 @@ var Reservation= {
     },
 
     ajoutElement: function() {
-        console.log(document.getElementById("nomStation"));
         var New = document.createElement("p");
         New.id = "reservation";
         New.textContent = "Vélo réservé à la station "+ document.getElementById("detailNomStation").textContent +" par " + prenom.value + " " + nom.value + "." + "Votre réservation expire dans ";
@@ -22,7 +21,7 @@ document.getElementById("nom").value = localStorage.getItem("nom");
 //Vérification si une réservation a déja été faite et si c'est le cas alors affichage du timer et de la signature. Impossible de faire nouvelle réservation.
 var signatureReservation = sessionStorage.getItem("signature");
 
-if (signatureReservation !== null){
+if (sessionStorage.getItem("statutReservation")=== "true"){
     document.getElementById("button").addEventListener("click", function(e) {
         e.preventDefault();
     });
@@ -38,15 +37,15 @@ if (signatureReservation !== null){
     reservationRafraichie.init(elementHtmlSection);
     
     //Récupération Date d'expiration réservation
-    var DateExpiration = Date.parse(sessionStorage.getItem("dateExp")); // dateExp est un string dans session Storage. Transforme en Date le string dateExp.
+    var dateExpiration = Date.parse(sessionStorage.getItem("dateExp")); // dateExp est un string dans session Storage. Transforme en Date le string dateExp.
     
     //Date raffraichissement
-    var DateRafraichissement = new Date();
+    var dateRafraichissement = new Date();
     
-    var tpsRestSec = (DateExpiration-DateRafraichissement)/1000;
+    var tpsRestantEnSeconde = (dateExpiration-dateRafraichissement)/1000; // De base en mS d'ou transfo en sec
     
-    var minRestante = Math.floor(tpsRestSec/60);
-    var secRestante = Math.floor(tpsRestSec%60);
+    var minRestante = Math.floor(tpsRestantEnSeconde/60); // nombre entier
+    var secRestante = Math.floor(tpsRestantEnSeconde%60); // modulo permet calcul restant d'une division
     
     console.log("il reste "+minRestante+"min et "+secRestante+"sec.");
 
@@ -64,34 +63,39 @@ if (signatureReservation !== null){
 
         e.preventDefault(); //empêche le navigateur de rafraichir
 
-        if (statut !== null) {     
-            if (statut === "OUVERT") {
-                if (disponibilite === "OK") {
-                    if (nom.value.length !==0) {
-                        if (prenom.value.length !==0) {
-                            document.getElementById("texteErreur").textContent = " ";
-                            //nom et prénom gardés en mémoire pour prochaine reservation
+        if (sessionStorage.getItem("statutReservation") === null || sessionStorage.getItem("statutReservation") === "false") { 
+            if (statut !== null) {     
+                if (statut === "OUVERT") {
+                    if (disponibilite === "OK") {
+                        if (nom.value.length !==0) {
+                            if (prenom.value.length !==0) {
+                                document.getElementById("texteErreur").textContent = " ";
+                                //nom et prénom gardés en mémoire pour prochaine reservation
 
-                            localStorage.setItem("prenom", prenom.value);
-                            localStorage.setItem("nom", nom.value);
+                                localStorage.setItem("prenom", prenom.value);
+                                localStorage.setItem("nom", nom.value);
 
-                            //Apparition section canva
-                            document.getElementById("signatureDiv").style.display = "flex";
+                                //Apparition section canva
+                                document.getElementById("signatureDiv").style.display = "flex";
 
+                            } else {
+                                document.getElementById("texteErreur").textContent = "Veuillez renseigner votre prénom.";
+                            }
                         } else {
-                            document.getElementById("texteErreur").textContent = "Veuillez renseigner votre prénom.";
-                        }
+                            document.getElementById("texteErreur").textContent = "Veuillez renseigner votre nom."; 
+                        } 
                     } else {
-                        document.getElementById("texteErreur").textContent = "Veuillez renseigner votre nom."; 
-                    } 
+                        document.getElementById("texteErreur").textContent = "Il n'y a plus de vélos disponibles. Veuillez sélectionner une autre station.";   
+                    }
                 } else {
-                    document.getElementById("texteErreur").textContent = "Il n'y a plus de vélos disponibles. Veuillez sélectionner une autre station.";   
+                    document.getElementById("texteErreur").textContent = "Cette station n'est pas disponible. Veuillez en sélectionner une autre.";
                 }
             } else {
-                document.getElementById("texteErreur").textContent = "Cette station n'est pas disponible. Veuillez en sélectionner une autre.";
-            }
-        } else {
-            document.getElementById("texteErreur").textContent = "Erreur. Veuillez sélectionner une station.";
+                document.getElementById("texteErreur").textContent = "Erreur. Veuillez sélectionner une station.";
+            };
+        }else {
+            console.log("Réservation en cours");
+            //il y a le timer en cours qui est sur la section de texte et qui se décompte 
         };
 
     });
@@ -104,17 +108,17 @@ if (signatureReservation !== null){
 
     document.getElementById("save").addEventListener("click", function(e) {
         var img = document.getElementById("imageSignature");
-
+        
         document.getElementById("timer").style.display= "flex";
 
         //enregistre temporairement signature + reservation (timer)
         sessionStorage.setItem("signature", img.src);
         
         //enregistrer date d'expiration de la reservation
-        var DateClic = new Date();
-        var DateExpiration = new Date (DateClic);
-        DateExpiration.setMinutes(DateClic.getMinutes() + 20);
-        sessionStorage.setItem("dateExp", DateExpiration);
+        var dateClic = new Date();
+        var dateExpiration = new Date (dateClic);
+        dateExpiration.setMinutes(dateClic.getMinutes() + 20);
+        sessionStorage.setItem("dateExp", dateExpiration);
         
         //Objet texte timer
         var elementHtmlSection = document.getElementById("timer"); 
@@ -123,6 +127,9 @@ if (signatureReservation !== null){
 
         //Objet timer
         var timer1 = Object.create(Timer);
-        timer1.init(20, 0);
+        timer1.init(1, 0);
+        
+        //intégrer statut de la réservation dans SessionStorage pour verifier statut au prochain clic Reserver
+        sessionStorage.setItem("statutReservation", true);
     });
-}
+};

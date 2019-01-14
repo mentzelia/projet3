@@ -41,7 +41,9 @@ var Timer = {
 
         if(compteurMinute===0 && compteurSeconde===0) {
                             clearInterval(setInterval(this.decompterSeconde, 1000));
-                            document.getElementById("reservation").textContent= "Votre réservation a expirée."
+                            document.getElementById("reservation").textContent= "Votre réservation a expirée.";
+                            sessionStorage.setItem("statutReservation", false);
+            
         };
     },
     
