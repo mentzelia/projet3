@@ -1,14 +1,8 @@
 //Objet texte timer
 var Reservation= {
-    init: function(elementHtmlSection, prenom, nom) {
-        this.elementHtmlSection = document.getElementById(elementHtmlSection);
-        this.prenom = document.getElementById(prenom);
-        this.nom = document.getElementById(nom);  
-        this.signatureReservation;
-        
-        
+    init: function(elementHtmlSection) {
+        this.elementHtmlSection = elementHtmlSection;
         this.ajoutElement();
-        this.recupInfos(prenom, nom);
     },
 
     ajoutElement: function() {
@@ -17,31 +11,15 @@ var Reservation= {
         New.textContent = "Vélo réservé à la station "+ document.getElementById("detailNomStation").textContent +" par " + prenom.value + " " + nom.value + "." + "Votre réservation expire dans ";
         this.elementHtmlSection.appendChild(New);
     },
-    
-    recupInfos: function(prenom, nom) {
-        //Champs préremplis à l'ouverture du navigateur si a déjà été rempli une fois
-        this.prenom.value = localStorage.getItem("prenom");
-        this.nom.value = localStorage.getItem("nom");
-        
-        //Recupere signature si rafraichissement navigateur
-        this.signatureReservation = sessionStorage.getItem("signature");
-        
-        
-    },
-    
-    
-    
-   
-
 };
 
 
-      
-
-
+//Champs préremplis à l'ouverture du navigateur si a déjà été rempli une fois
+document.getElementById("prenom").value = localStorage.getItem("prenom");
+document.getElementById("nom").value = localStorage.getItem("nom");
 
 //Vérification si une réservation a déja été faite et si c'est le cas alors affichage du timer et de la signature. Impossible de faire nouvelle réservation.
-
+var signatureReservation = sessionStorage.getItem("signature");
 
 if (sessionStorage.getItem("statutReservation")=== "true"){
     document.getElementById("button").addEventListener("click", function(e) {
@@ -122,9 +100,6 @@ if (sessionStorage.getItem("statutReservation")=== "true"){
 
     });
 
-    
-    
-    
     //Creation des objets
 
     //Objet canva
@@ -146,9 +121,9 @@ if (sessionStorage.getItem("statutReservation")=== "true"){
         sessionStorage.setItem("dateExp", dateExpiration);
         
         //Objet texte timer
-         
+        var elementHtmlSection = document.getElementById("timer"); 
         var reservation1 = Object.create(Reservation);
-        reservation1.init("timer", "prenom", "nom");
+        reservation1.init(elementHtmlSection);
 
         //Objet timer
         var timer1 = Object.create(Timer);
