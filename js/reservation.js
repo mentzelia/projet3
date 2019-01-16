@@ -88,6 +88,7 @@ if (sessionStorage.getItem("statutReservation")=== "true"){
                         document.getElementById("texteErreur").textContent = "Il n'y a plus de vélos disponibles. Veuillez sélectionner une autre station.";   
                     }
                 } else {
+                    console.log(statut);
                     document.getElementById("texteErreur").textContent = "Cette station n'est pas disponible. Veuillez en sélectionner une autre.";
                 }
             } else {
