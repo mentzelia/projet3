@@ -6,9 +6,7 @@ var Reservation= {
     },
 
     ajoutElement: function() {
-        var New = document.createElement("p");
-        New.id = "reservation";
-        New.textContent = "Vélo réservé à la station "+ document.getElementById("detailNomStation").textContent +" par " + prenom.value + " " + nom.value + "." + "Votre réservation expire dans ";
+
         this.elementHtmlSection.appendChild(New);
     },
 };
@@ -64,9 +62,9 @@ if (sessionStorage.getItem("statutReservation")=== "true"){
         e.preventDefault(); //empêche le navigateur de rafraichir
 
         if (sessionStorage.getItem("statutReservation") === null || sessionStorage.getItem("statutReservation") === "false") { 
-            if (statut !== null) {     
-                if (statut === "OUVERT") {
-                    if (disponibilite === "OK") {
+            if (carte1.statut !== null) {
+                if (carte1.statut === "OUVERT") {
+                    if (carte1.disponibilite === "OK") {
                         if (nom.value.length !==0) {
                             if (prenom.value.length !==0) {
                                 document.getElementById("texteErreur").textContent = " ";
