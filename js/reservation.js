@@ -1,5 +1,5 @@
-//Objet texte timer
-var Reservation= {
+//1- Objet Texte Reservation
+var TexteReservation= {
     init: function(elementHtmlSection) {
         this.elementHtmlSection = elementHtmlSection;
         this.ajoutElement();
@@ -14,12 +14,39 @@ var Reservation= {
 };
 
 
-//Champs préremplis à l'ouverture du navigateur si a déjà été rempli une fois
-document.getElementById("prenom").value = localStorage.getItem("prenom");
-document.getElementById("nom").value = localStorage.getItem("nom");
 
-//Vérification si une réservation a déja été faite et si c'est le cas alors affichage du timer et de la signature. Impossible de faire nouvelle réservation.
-var signatureReservation = sessionStorage.getItem("signature");
+//2- Objet Recup Infos local et Session Storage:
+var RecupInfoStorage ={
+    init: function(prenom, nom){
+        this.prenom = document.getElementById(prenom);
+        this.nom = document.getElementById(nom);
+        
+        this.recupLocalStorage(prenom, nom);
+        this.recupSessionStorage();
+        
+    },
+    
+    //Champs préremplis à l'ouverture du navigateur si a déjà été rempli une fois
+    recupLocalStorage: function(prenom, nom){
+        this.prenom.value = localStorage.getItem("prenom");
+        this.nom.value = localStorage.getItem("nom");    
+    },
+    
+    //Vérification si une réservation a déja été faite et si c'est le cas alors affichage du timer et de la signature. Impossible de faire nouvelle réservation.
+    recupSessionStorage: function(){
+       this.signatureReservation = sessionStorage.getItem("signature"); 
+    },
+    
+};
+
+var recupInfoStorage1 = Object.create(RecupInfoStorage);
+recupInfoStorage1.init("prenom", "nom");
+
+
+
+
+//3- Mecanisme d'enclenchement de la reservations selon conditions de verifications établies
+
 
 if (sessionStorage.getItem("statutReservation")=== "true"){
     document.getElementById("button").addEventListener("click", function(e) {
@@ -33,7 +60,7 @@ if (sessionStorage.getItem("statutReservation")=== "true"){
     //Objet texte timer
     document.getElementById("timer").style.display = "flex";
     var elementHtmlSection = document.getElementById("timer"); 
-    var reservationRafraichie = Object.create(Reservation);
+    var reservationRafraichie = Object.create(TexteReservation);
     reservationRafraichie.init(elementHtmlSection);
     
     //Récupération Date d'expiration réservation
@@ -101,7 +128,7 @@ if (sessionStorage.getItem("statutReservation")=== "true"){
 
     });
 
-    //Creation des objets
+    //Appel canva, timer+ texte
 
     //Objet canva
     var canvas1 = Object.create(Canvas);
@@ -121,9 +148,9 @@ if (sessionStorage.getItem("statutReservation")=== "true"){
         dateExpiration.setMinutes(dateClic.getMinutes() + 20);
         sessionStorage.setItem("dateExp", dateExpiration);
         
-        //Objet texte timer
+        //Objet texte reservation
         var elementHtmlSection = document.getElementById("timer"); 
-        var reservation1 = Object.create(Reservation);
+        var reservation1 = Object.create(TexteReservation);
         reservation1.init(elementHtmlSection);
 
         //Objet timer
