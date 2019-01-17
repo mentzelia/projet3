@@ -41,8 +41,13 @@ var Timer = {
 
         if(compteurMinute===0 && compteurSeconde===0) {
                             clearInterval(setInterval(this.decompterSeconde, 1000));
-                            document.getElementById("reservation").textContent= "Votre réservation a expirée.";
+                           
+                            alert("Votre réservation est expirée.");
+                            
+                            //au clic sur OK:
                             sessionStorage.setItem("statutReservation", false);
+                            document.getElementById("reservation").textContent= " ";
+                            window.location.reload();// force rafraichissement navigateur pour nouvelle reservation
             
         };
     },
