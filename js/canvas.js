@@ -1,5 +1,5 @@
 var Canvas = {
-    init: function(canvas, color, line, saveButton, clearButton, sectionCanva) {
+    init: function(canvas, color, line, saveButton, clearButton) {
         //mise en place du canva
         this.canvas = document.getElementById(canvas);
         this.context = this.canvas.getContext("2d");
@@ -7,7 +7,6 @@ var Canvas = {
         this.context.lineWidth = line;
         this.saveButton = document.getElementById(saveButton);
         this.clearButton = document.getElementById(clearButton);
-        this.sectionCanva = document.getElementById(sectionCanva);
         
         
      
@@ -147,7 +146,7 @@ var Canvas = {
             var dataUrl = this.canvas.toDataURL(); //methode qui enregistre la signature du canva en image
             var image = document.getElementById("imageSignature");
             image.src = dataUrl;
-            this.sectionCanva.style.display = "none";
+            
         }.bind(this));
     },
     

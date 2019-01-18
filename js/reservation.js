@@ -1,15 +1,17 @@
 var ObjetReservation = {
         init: function(reservationButtonId, objetCarte){
         this.timer = Object.create(Timer);
-        this.BoutonReservation = document.getElementById(reservationButtonId);
+        this.boutonReservation = document.getElementById(reservationButtonId);
         this.objetCarte = objetCarte //objet reservation est lié à la carte pour recup ses infos
         this.nom = null;
         this.prenom = null;
-        this.adresse = null;
         this.detailNomStation = null;
         this.elementHtmlSection = null;
-        this.gestionStorage();
+        this.gestionStorage(); 
+        this.verifReservationEnCours();
         this.gestionnaireReservation();
+        
+        
     },
     
     gestionStorage: function() {
@@ -17,21 +19,40 @@ var ObjetReservation = {
         document.getElementById("nom").value = localStorage.getItem("nom");
     },
     
+     verifReservationEnCours: function(){    
+            
+        //Vérification si une réservation a déja été faite et si c'est le cas alors affichage timer rafraichi (notamment pour rafraichissement navigateur)
+        if (sessionStorage.getItem("statutReservation")=== "true"){
+            this.apparitionTexteTimer();
+            this.creationTimerRafraichi(); 
+        
+        } else {
+        
+            this.ajoutReservation();
+        };
+    },
+    
     gestionnaireReservation: function(){
-        this.BoutonReservation.addEventListener('click', function(e){
+        this.boutonReservation.addEventListener('click', function(e){
             this.prenom = document.getElementById("prenom");
             this.nom = document.getElementById("nom");
             this.detailNomStation = document.getElementById( "detailNomStation");
-            this.adresse = document.getElementById("adresse");
+            
             e.preventDefault(); //empêche le navigateur de rafraichir
+            
             if (sessionStorage.getItem("statutReservation") === null || sessionStorage.getItem("statutReservation") === "false") {
                 this.ajoutReservation();
             }else{
                 if(window.confirm("Vous êtes sur le point d'annuler votre réservation. Souhaitez-vous annuler et créer une nouvelle réservation?")) {
                     window.location.reload();// forcer rafraichissement navigateur
                     sessionStorage.setItem("statutReservation", false);
+                    
                 } else {
+                    
                     //rafraichir le timer
+                    
+                    this.creationTimerRafraichi(); 
+                    
                 };
             };
         }.bind(this))
@@ -51,7 +72,7 @@ var ObjetReservation = {
                             
                             //création du canvas
                             var canvas1 = Object.create(Canvas);
-                            canvas1.init("canvas", "#000", "1", "save", "clear", "signatureDiv");
+                            canvas1.init("canvas", "#000", "1", "save", "clear");
                             
                             //A l'enregistrement du canva, lancer le timer
                             this.gestionnaireTimer();
@@ -78,19 +99,18 @@ var ObjetReservation = {
     
     gestionnaireTimer: function(){
         document.getElementById("save").addEventListener("click", function(e) {
+                                    
+            var img = document.getElementById("imageSignature");
             
-            if(document.getElementById("imageSignature").src === null) {
+            //enregistre temporairement signature + reservation (timer)
+            sessionStorage.setItem("signature", img.src);
+
+    
+            if(sessionStorage.getItem("signature") === null) {
                 document.getElementById("texteErreur").textContent = "Veuillez signer pour valider votre réservation.";
                 
-            } else {
-                
-                var img = document.getElementById("imageSignature");
-
-                document.getElementById("timer").style.display= "flex";
-
-                //enregistre temporairement signature + reservation (timer)
-                sessionStorage.setItem("signature", img.src);
-
+            } else {   
+        
                 //enregistrer date d'expiration de la reservation
                 var dateClic = new Date();
                 var dateExpiration = new Date (dateClic);
@@ -98,20 +118,53 @@ var ObjetReservation = {
                 sessionStorage.setItem("dateExp", dateExpiration);
 
                 //texte timer
-                this.elementHtmlSection = document.getElementById("timer");
-                var texteReservation = document.createElement("p");
-                texteReservation.id = "reservation";
-                texteReservation.textContent = "Vélo réservé à la station "+ this.detailNomStation.textContent +" par " + this.prenom.value + " " + this.nom.value + "." + "Votre réservation expire dans ";
-                this.elementHtmlSection.appendChild(texteReservation);
+                this.apparitionTexteTimer();
 
                 //Objet timer
                 this.timer.init(1, 0);
 
                 //intégrer statut de la réservation dans SessionStorage pour verifier statut au prochain clic Reserver
                 sessionStorage.setItem("statutReservation", true);
+                
+                var sectionCanva = document.getElementById("signatureDiv");
+                sectionCanva.style.display = "none";
             };
+        
             
             
         }.bind(this));
     },
+    
+    apparitionTexteTimer: function () {
+        this.prenom = document.getElementById("prenom");
+        this.nom = document.getElementById("nom");
+        this.detailNomStation = document.getElementById( "detailNomStation");
+        
+        //texte timer
+        document.getElementById("timer").style.display = "flex";  
+        this.elementHtmlSection = document.getElementById("timer");
+        var texteReservation = document.createElement("p");
+        texteReservation.id = "reservation";
+        texteReservation.textContent = "Vélo réservé à la station "+ this.detailNomStation.textContent +" par " + this.prenom.value + " " + this.nom.value + "." + "Votre réservation expire dans ";
+        this.elementHtmlSection.appendChild(texteReservation);
+    },
+    
+    creationTimerRafraichi: function() {
+        //Récupération Date d'expiration réservation
+        var dateExpiration = Date.parse(sessionStorage.getItem("dateExp")); // dateExp est un string dans session Storage. Transforme en Date le string dateExp.
+
+        //Date rafraichissement
+        var dateRafraichissement = new Date();
+
+        var tpsRestantEnSeconde = (dateExpiration-dateRafraichissement)/1000; // De base en mS d'ou transfo en sec
+
+        var minRestante = Math.floor(tpsRestantEnSeconde/60); // nombre entier
+        var secRestante = Math.floor(tpsRestantEnSeconde%60); // modulo permet calcul restant d'une division
+
+
+        //Creation objet Timer lors du rafraichissement de la page    
+        this.timer.init(minRestante, secRestante);
+    },
+    
+    
 };
