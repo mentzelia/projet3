@@ -46,6 +46,7 @@ var Timer = {
                             
                             //au clic sur OK:
                             sessionStorage.setItem("statutReservation", false);
+                            sessionStorage.setItem("canvaEnregistre", false);
                             document.getElementById("reservation").textContent= " ";
                             window.location.reload();// force rafraichissement navigateur pour nouvelle reservation
             

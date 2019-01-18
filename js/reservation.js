@@ -46,6 +46,7 @@ var ObjetReservation = {
                 if(window.confirm("Vous êtes sur le point d'annuler votre réservation. Souhaitez-vous annuler et créer une nouvelle réservation?")) {
                     window.location.reload();// forcer rafraichissement navigateur
                     sessionStorage.setItem("statutReservation", false);
+                    sessionStorage.setItem("canvaEnregistre", "false");
                     
                 } else {
                     
@@ -98,19 +99,18 @@ var ObjetReservation = {
     },
     
     gestionnaireTimer: function(){
-        document.getElementById("save").addEventListener("click", function(e) {
-                                    
-            var img = document.getElementById("imageSignature");
+        document.getElementById("save").addEventListener("click", function(e) {         
             
-            //enregistre temporairement signature + reservation (timer)
-            sessionStorage.setItem("signature", img.src);
-
-    
-            if(sessionStorage.getItem("signature") === null) {
+            if(sessionStorage.getItem("canvaEnregistre") === "false" || sessionStorage.getItem("canvaEnregistre") === null) {
                 document.getElementById("texteErreur").textContent = "Veuillez signer pour valider votre réservation.";
                 
-            } else {   
-        
+            } else {  
+                
+                var img = document.getElementById("imageSignature");
+            
+                //enregistre temporairement signature + reservation (timer)
+                sessionStorage.setItem("signature", img.src);
+                
                 //enregistrer date d'expiration de la reservation
                 var dateClic = new Date();
                 var dateExpiration = new Date (dateClic);
@@ -118,6 +118,7 @@ var ObjetReservation = {
                 sessionStorage.setItem("dateExp", dateExpiration);
 
                 //texte timer
+                document.getElementById("texteErreur").textContent = " ";
                 this.apparitionTexteTimer();
 
                 //Objet timer

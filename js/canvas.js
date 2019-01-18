@@ -48,6 +48,7 @@ var Canvas = {
         
         this.canvas.addEventListener("mousemove", function(e) {
             this.mousePosition= this.getMousePosition(this.canvas, e);
+            
         }.bind(this), false);
     },
 
@@ -74,6 +75,7 @@ var Canvas = {
         this.context.lineTo(this.mousePosition.x, this.mousePosition.y);
         this.context.stroke();
         this.lastPosition = this.mousePosition;
+        sessionStorage.setItem("canvaEnregistre", "true"); //enregistre booléen pour suivi reservation
       };
     },
 
@@ -90,6 +92,8 @@ var Canvas = {
     //Gestion du doigt pour tablette et mobile
     evenementDoigt: function() {
         this.canvas.addEventListener("touchstart", function (e) {
+            sessionStorage.setItem("canvaEnregistre", "true");
+            
             if (e.target === this.canvas) {
             e.preventDefault();
             };//fixe le canva
@@ -137,6 +141,7 @@ var Canvas = {
     clearCanvas: function () {
         this.clearButton.addEventListener("click", function() {
             this.canvas.width = this.canvas.width; //seul moyen est de reinitialiser la width
+            sessionStorage.setItem("canvaEnregistre", "false");
             }.bind(this));
         },
     
