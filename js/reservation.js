@@ -79,7 +79,7 @@ var ObjetReservation = {
     gestionnaireTimer: function(){
         document.getElementById("save").addEventListener("click", function(e) {
             
-            if(// NON FONCTIONNEL document.getElementById("imageSignature").src === null) {
+            if(document.getElementById("imageSignature").src === null) {
                 document.getElementById("texteErreur").textContent = "Veuillez signer pour valider votre réservation.";
                 
             } else {
