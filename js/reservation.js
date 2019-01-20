@@ -9,7 +9,6 @@ var ObjetReservation = {
         this.elementHtmlSection = null;
         this.gestionStorage(); 
         this.verifReservationEnCours();
-        this.gestionnaireReservation();
         
         
     },
@@ -28,8 +27,10 @@ var ObjetReservation = {
         
         } else {
         
-            this.ajoutReservation();
-        };
+            this.gestionnaireReservation();
+            
+            
+        }; 
     },
     
     gestionnaireReservation: function(){
@@ -51,7 +52,6 @@ var ObjetReservation = {
                 } else {
                     
                     //rafraichir le timer
-                    
                     this.creationTimerRafraichi(); 
                     
                 };
