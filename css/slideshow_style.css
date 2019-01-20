@@ -20,7 +20,7 @@ adaptation tablette et écrans PC avec media Queries*/
 .figcaption_slider1 {
     
     position: absolute;
-    top: 70%;
+    top: 75%;
     left: 30%;    
     font-family: 'catamaranextrabold', arial, sans-serif;
     text-align: left;
@@ -30,7 +30,7 @@ adaptation tablette et écrans PC avec media Queries*/
 }
 
 #figcaption_img1_slider1 {
-    top: 60%;
+    top: 65%;
     left: 33%;
     text-align: right;
     font-size: 20px; 

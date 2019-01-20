@@ -9,6 +9,7 @@ var ObjetReservation = {
         this.elementHtmlSection = null;
         this.gestionStorage(); 
         this.verifReservationEnCours();
+        this.gestionnaireReservation();
         
         
     },
@@ -27,7 +28,7 @@ var ObjetReservation = {
         
         } else {
         
-            this.gestionnaireReservation();
+            this.ajoutReservation();
             
             
         }; 
@@ -35,15 +36,18 @@ var ObjetReservation = {
     
     gestionnaireReservation: function(){
         this.boutonReservation.addEventListener('click', function(e){
+            e.preventDefault(); //empêche le navigateur de rafraichir
+            
             this.prenom = document.getElementById("prenom");
             this.nom = document.getElementById("nom");
             this.detailNomStation = document.getElementById( "detailNomStation");
             
-            e.preventDefault(); //empêche le navigateur de rafraichir
-            
             if (sessionStorage.getItem("statutReservation") === null || sessionStorage.getItem("statutReservation") === "false") {
+                
                 this.ajoutReservation();
+                
             }else{
+                
                 if(window.confirm("Vous êtes sur le point d'annuler votre réservation. Souhaitez-vous annuler et créer une nouvelle réservation?")) {
                     window.location.reload();// forcer rafraichissement navigateur
                     sessionStorage.setItem("statutReservation", false);
@@ -52,7 +56,8 @@ var ObjetReservation = {
                 } else {
                     
                     //rafraichir le timer
-                    this.creationTimerRafraichi(); 
+                    
+                    this.creationTimerRafraichi(); //ici PROBLEME
                     
                 };
             };
@@ -122,7 +127,7 @@ var ObjetReservation = {
                 this.apparitionTexteTimer();
 
                 //Objet timer
-                this.timer.init(1, 0);
+                this.timer.init(20, 0);
 
                 //intégrer statut de la réservation dans SessionStorage pour verifier statut au prochain clic Reserver
                 sessionStorage.setItem("statutReservation", true);

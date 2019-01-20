@@ -44,7 +44,7 @@ adaptation tablette et écrans PC avec media Queries*/
     position: absolute;
     padding: 0% 1%;
     left: 5%;
-    bottom: 90%;
+    bottom: 99%;
     background-color: #e4dfd2;
       
 }
@@ -96,14 +96,20 @@ form {
     box-shadow: 3px 3px 3px #0D3866;
 }
 
+#texteReservation {
+    margin-left: 5%;
+}
 
+#timer {
+    margin-left: 5%;
+}
 
 
 /* Media Queries responsive */
 /* Pour tablette 481-800px */
 @media screen and (min-width: 481px) {
     .titreStationDetails {
-        bottom: 93%;
+        bottom: 99%;
     }
     
     #button:hover {

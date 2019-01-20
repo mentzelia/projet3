@@ -24,7 +24,7 @@
     font-family: 'catamaranextrabold', arial, sans-serif;
 }
 
-p {
+#texteCanva {
     width: 33%;
     text-align: justify;
 }
