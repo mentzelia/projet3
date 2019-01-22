@@ -10,8 +10,7 @@ var ObjetReservation = {
         this.gestionStorage(); 
         this.verifReservationEnCours();
         this.gestionnaireReservation();
-        //A l'enregistrement du canva, lancer le timer
-        this.gestionnaireTimer();
+        this.gestionnaireTimer(); //A l'enregistrement du canva, lancer le timer
         
         
     },
@@ -53,6 +52,7 @@ var ObjetReservation = {
                 if(window.confirm("Vous êtes sur le point d'annuler votre réservation. Souhaitez-vous annuler et créer une nouvelle réservation?")) {
                     clearInterval(this.timer.currentTimer);
                     document.getElementById("timer").textContent = " ";
+                    document.getElementById("imageSignature").style.display = "none";
                     
                     sessionStorage.setItem("statutReservation", false);
                     sessionStorage.setItem("canvaEnregistre", "false");
@@ -85,7 +85,6 @@ var ObjetReservation = {
                             localStorage.setItem("nom", nom.value);
                             
                             //création du canvas
-                            //document.getElementById("imageSignature").style.display = "none";
                             var canvas1 = Object.create(Canvas);
                             canvas1.init("canvas", "#000", "1", "save", "clear");
                             canvas1.canvaReset();
@@ -119,8 +118,6 @@ var ObjetReservation = {
             } else {  
                 
                 var img = document.getElementById("imageSignature");
-                
-                //enregistre temporairement signature + reservation (timer)
                 
                 //enregistrer date d'expiration de la reservation
                 var dateClic = new Date();

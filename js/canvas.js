@@ -154,6 +154,7 @@ var Canvas = {
             var dataUrl = this.canvas.toDataURL(); //methode qui enregistre la signature du canva en image
             image.src = dataUrl;
             sessionStorage.setItem("signature", dataUrl);
+            image.style.display = "block";
         }.bind(this));
     },
     
