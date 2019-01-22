@@ -121,8 +121,6 @@ var ObjetReservation = {
                 var img = document.getElementById("imageSignature");
                 
                 //enregistre temporairement signature + reservation (timer)
-                sessionStorage.setItem("signature", img.src);
-                console.log(img.src);
                 
                 //enregistrer date d'expiration de la reservation
                 var dateClic = new Date();
