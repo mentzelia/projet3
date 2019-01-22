@@ -10,6 +10,8 @@ var ObjetReservation = {
         this.gestionStorage(); 
         this.verifReservationEnCours();
         this.gestionnaireReservation();
+        //A l'enregistrement du canva, lancer le timer
+        this.gestionnaireTimer();
         
         
     },
@@ -24,7 +26,7 @@ var ObjetReservation = {
         //Vérification si une réservation a déja été faite et si c'est le cas alors affichage timer rafraichi (notamment pour rafraichissement navigateur)
         if (sessionStorage.getItem("statutReservation")=== "true"){
             this.apparitionTexteTimer();
-            this.creationTimerRafraichi(); 
+            this.creationTimerRafraichi();
         
         } else {
         
@@ -49,15 +51,21 @@ var ObjetReservation = {
             }else{
                 
                 if(window.confirm("Vous êtes sur le point d'annuler votre réservation. Souhaitez-vous annuler et créer une nouvelle réservation?")) {
-                    window.location.reload();// forcer rafraichissement navigateur
+                    clearInterval(this.timer.currentTimer);
+                    document.getElementById("timer").textContent = " ";
+                    
                     sessionStorage.setItem("statutReservation", false);
                     sessionStorage.setItem("canvaEnregistre", "false");
+                
+                    this.ajoutReservation();
                     
                 } else {
                     
                     //rafraichir le timer
-                    
-                    this.creationTimerRafraichi(); //ici PROBLEME
+                    clearInterval(this.timer.currentTimer);
+                    document.getElementById("timer").textContent = " ";
+                    this.apparitionTexteTimer();
+                    this.creationTimerRafraichi(); 
                     
                 };
             };
@@ -77,11 +85,10 @@ var ObjetReservation = {
                             localStorage.setItem("nom", nom.value);
                             
                             //création du canvas
+                            //document.getElementById("imageSignature").style.display = "none";
                             var canvas1 = Object.create(Canvas);
                             canvas1.init("canvas", "#000", "1", "save", "clear");
-                            
-                            //A l'enregistrement du canva, lancer le timer
-                            this.gestionnaireTimer();
+                            canvas1.canvaReset();
                             
                             //Apparition section canva
                             document.getElementById("signatureDiv").style.display = "flex";
@@ -99,12 +106,12 @@ var ObjetReservation = {
                 document.getElementById("texteErreur").textContent = "Cette station n'est pas disponible. Veuillez en sélectionner une autre.";
             }
         } else {
-            document.getElementById("texteErreur").textContent = "Erreur. Veuillez sélectionner une station.";
+            document.getElementById("texteErreur").textContent = "Veuillez sélectionner une station.";
         }
     },
     
     gestionnaireTimer: function(){
-        document.getElementById("save").addEventListener("click", function(e) {         
+        document.getElementById("save").addEventListener("click", function(e) { 
             
             if(sessionStorage.getItem("canvaEnregistre") === "false" || sessionStorage.getItem("canvaEnregistre") === null) {
                 document.getElementById("texteErreur").textContent = "Veuillez signer pour valider votre réservation.";
@@ -112,9 +119,10 @@ var ObjetReservation = {
             } else {  
                 
                 var img = document.getElementById("imageSignature");
-            
+                
                 //enregistre temporairement signature + reservation (timer)
                 sessionStorage.setItem("signature", img.src);
+                console.log(img.src);
                 
                 //enregistrer date d'expiration de la reservation
                 var dateClic = new Date();
@@ -146,12 +154,21 @@ var ObjetReservation = {
         this.nom = document.getElementById("nom");
         this.detailNomStation = document.getElementById( "detailNomStation");
         
+        if(sessionStorage.getItem("statutReservation") === "true"){
+            //en cas de rafraichissement, évite que le sessionStorage ne soit écrasé par un textContent vide
+            
+        } else {
+            
+            sessionStorage.setItem("nomStation",this.detailNomStation.textContent);
+        }; 
+            
         //texte timer
         document.getElementById("timer").style.display = "flex";  
+        this.elementHtmlSection = null;
         this.elementHtmlSection = document.getElementById("timer");
         var texteReservation = document.createElement("p");
         texteReservation.id = "reservation";
-        texteReservation.textContent = "Vélo réservé à la station "+ this.detailNomStation.textContent +" par " + this.prenom.value + " " + this.nom.value + "." + "Votre réservation expire dans ";
+        texteReservation.textContent = "Vélo réservé à la station "+ sessionStorage.getItem("nomStation") +" par " + this.prenom.value + " " + this.nom.value + "." + "Votre réservation expire dans ";
         this.elementHtmlSection.appendChild(texteReservation);
     },
     

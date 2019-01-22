@@ -8,15 +8,11 @@ var Canvas = {
         this.saveButton = document.getElementById(saveButton);
         this.clearButton = document.getElementById(clearButton);
         
-        
-     
-        
         //gestion souris
         this.draw = false;
         this.mousePosition = {x:0, y:0};
         this.lastPosition = this.mousePosition;
 
-        
         this.evenementSouris();
         this.animationNavigateur();
         this.animationBoucle();
@@ -140,16 +136,22 @@ var Canvas = {
     //Reinitialiser le canva
     clearCanvas: function () {
         this.clearButton.addEventListener("click", function() {
-            this.canvas.width = this.canvas.width; //seul moyen est de reinitialiser la width
-            sessionStorage.setItem("canvaEnregistre", "false");
+            this.canvaReset(); //seul moyen est de reinitialiser la width
             }.bind(this));
         },
+    
+    canvaReset: function () {
+        this.canvas.width = this.canvas.width;
+        sessionStorage.setItem("canvaEnregistre", "false");
+    },
+    
     
     //enregistrer en data Url
     saveCanvas: function() {
         this.saveButton.addEventListener("click", function () {
-            var dataUrl = this.canvas.toDataURL(); //methode qui enregistre la signature du canva en image
             var image = document.getElementById("imageSignature");
+            
+            var dataUrl = this.canvas.toDataURL(); //methode qui enregistre la signature du canva en image
             image.src = dataUrl;
             
         }.bind(this));
