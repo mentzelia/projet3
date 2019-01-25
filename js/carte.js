@@ -5,7 +5,6 @@ var Carte = {
         this.listeStation = [];
         this.statut = null;
         this.disponibilite = null;
-        this.testMarkerSelect = false;
         this.nomStationAPI = null;
         this.serveurUrl = serveurUrl;
         this.coordonneesGPS = coordonneesGPS; // Localisation pour le centre de la carte
@@ -23,10 +22,9 @@ var Carte = {
     
     getAjax: function(serveurUrl) {
         
-        //on initie la map apres l appel ajax pour etre sur d avoir récuperé toutes les donnees car ajaxGet est asynchrone
+        //1.récupère liste stations en tableau de données (idem tableau dans postman) -  2.on initie la map car ajaxGet est asynchrone
         ajaxGet(serveurUrl, function(reponseX){
-            // transforme JSON en JS
-            this.listeStation = JSON.parse(reponseX);//mettre bind ou pas? a tester
+            this.listeStation = JSON.parse(reponseX); // transforme JSON en JS
             this.initMap(this.coordonneesGPS, this.mapId, this.texteErreur);
         }.bind(this));
     },
@@ -34,9 +32,9 @@ var Carte = {
     //Initialisation + ajout carte
     initMap: function(coordonneesGPS, mapId, texteErreur){
         // Carte centrée avec zoom adapté
-        this.map = new google.maps.Map(mapId, {zoom: 15, center: this.coordonneesGPS});
+        this.map = new google.maps.Map(mapId, {zoom: 15, center: this.coordonneesGPS});//création d'une nouvelle carte google - code google map API
 
-        //boucle qui genere les markers d apres la liste de stations recuperees au ajaxGet
+        //boucle qui génère les markers d'après la liste de stations récupérées au ajaxGet - code de google
         for (i=0;i<this.listeStation.length; i++) {
              this.pos = {lat: this.listeStation[i].position.lat, lng: this.listeStation[i].position.lng};
              this.marker = new google.maps.Marker({position: this.pos, map: this.map, station: this.listeStation[i]});
@@ -46,34 +44,37 @@ var Carte = {
     
     },
     
-    //d'apres exemple sur google - au click sur le marqueur, ca affiche les infos
+    //d'apres exemple sur google - au click sur le marqueur, ça affiche les infos
         getStationInfo: function (markerX, texteErreur) {
             markerX.addListener('click', function() {
-                this.affichageInfoStation(markerX.station);// parametre est l'info station recup à la generation du marker 
+                this.affichageInfoStation(markerX.station);// paramètre est l'info station recup à la generation du marker 
                 this.texteErreur.textContent = "   ";
-                this.testMarkerSelect = true;
               }.bind(this));
       },
     
     affichageInfoStation: function(station) {
-            this.nomStationAPI = station.name.split("-");
+            this.nomStationAPI = station.name.split("-"); //coupe en plusieurs parties, donne un tableau
             this.detailNomStation.textContent = this.nomStationAPI[1];
 
-            this.adresse.textContent = "Adresse : " + station.address + " - " + station.contract_name;
+            this.adresse.textContent = "Adresse : " + station.address + " - " + station.contract_name;//rem: ici station est le paramètre propre à la fonction donc on ne met pas this.station!! 
 
-            //statut vélo dispo
+            //statut vélo dispo utilisé dans objet réservation
             if (station.available_bikes > 0 ){
                 this.disponibilite = "OK";
-            } else this.disponibilite = "NOK";
+            } else {
+                this.disponibilite = "NOK";
+            };
 
             this.veloDispo.textContent = "Nombres de vélos disponibles : " + station.available_bikes;
 
             this.places.textContent = "Nombres de Place : " + station.available_bike_stands;
 
-            //statut ouvert ou fermé
+            //statut ouvert ou fermé utilisé dans objet réservation
             if (station.status === "OPEN"){
                 this.statut = "OUVERT";
-            } else this.statut = "FERME";
+            } else {
+                this.statut = "FERME";
+            };
 
             this.statutId.textContent = "Statut : " + this.statut;
             return this.statut;

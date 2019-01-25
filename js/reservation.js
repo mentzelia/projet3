@@ -7,6 +7,7 @@ var ObjetReservation = {
         this.prenom = null;
         this.detailNomStation = null;
         this.elementHtmlSection = null;
+            
         this.gestionStorage(); 
         this.verifReservationEnCours();
         this.gestionnaireReservation();
@@ -121,7 +122,7 @@ var ObjetReservation = {
                 
                 //enregistrer date d'expiration de la reservation
                 var dateClic = new Date();
-                var dateExpiration = new Date (dateClic);
+                var dateExpiration = new Date (dateClic);// obtient nouvelle date en fonction d'une date existante ici dateClic -> stackoverflow
                 dateExpiration.setMinutes(dateClic.getMinutes() + 20);
                 sessionStorage.setItem("dateExp", dateExpiration);
 

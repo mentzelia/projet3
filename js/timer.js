@@ -29,7 +29,6 @@ var Timer = {
     
     decompterSeconde: function() {
         var compteurSeconde = Number(document.getElementById("timerSeconde").textContent);
-         console.log(compteurSeconde);
         var compteurMinute = Number(document.getElementById("timerMinute").textContent);
     
         if (compteurSeconde>0) {
@@ -42,7 +41,7 @@ var Timer = {
         };
 
         if(compteurMinute===0 && compteurSeconde===0) {
-                            clearInterval(this.currentTimer);
+                            this.clearTimer();
                            
                             alert("Votre réservation est expirée.");
                             
@@ -55,15 +54,14 @@ var Timer = {
         };
     },
     
+    clearTimer: function() {
+        clearInterval(this.intervalRecurrent());
+    },
+    
     intervalRecurrent: function() {
         this.currentTimer = setInterval(this.decompterSeconde, 1000);
     },
-    
-    clearTimer: function() {
-        clearInterval(this.currentTimer);
-    },
-    
-    
+      
 };
 
 

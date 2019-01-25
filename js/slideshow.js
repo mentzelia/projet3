@@ -19,7 +19,8 @@ var Slider = {
         if(duration){
             this.duration = duration;
         }
-        this.slide(); //méthode pour faire fonctionner le slider, évite de devoir l'appeler à la creation de l'objet
+        
+        this.slide(); 
         this.slideClavier();
     },
 
@@ -32,7 +33,7 @@ var Slider = {
     },
 
     showDivs: function (n) {
-        //si l'index est > au nombre d'élements -> remise à zero, sinon affiche la slide demandée
+        //si l'index de la slide est > au nombre d'élements -> remise à zero, sinon affiche la slide demandée
         if ( n > this.ensbleSlides.length) {
             this.slideIndex = 1
         };
@@ -40,12 +41,15 @@ var Slider = {
         if (n < 1) {
             this.slideIndex = this.ensbleSlides.length
         };
-
+        
+        //on cache toutes les images
         for (var i = 0; i < this.ensbleSlides.length; i++) {
             $(this.ensbleSlides[i]).hide(); 
         };
-
+        
+        //affichage de la diapo concernée
         $(this.ensbleSlides[this.slideIndex - 1]).show();
+        //slideIndex-1 = pour ajuster le chiffre de la diapo en tableau au chiffre du slideIndex qui n'est pas sous format tableau
     },
 
     //Fonction pour faire défiler manuellement le slider
@@ -107,14 +111,6 @@ var Slider = {
     
                     
 
-//Creation de l'objet
-var ensbleSlides = $(".elements_slide_slider1");
-var buttonLeft = $("#button_left");
-var buttonRight = $("#button_right");
-var buttonPause = $(".fa-pause");
-var buttonPlay = $(".fa-play");
 
-var slider1 = Object.create(Slider);
-slider1.init(ensbleSlides, buttonLeft, buttonRight, buttonPause, buttonPlay, 5000);
 
 

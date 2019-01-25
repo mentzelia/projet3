@@ -2,19 +2,19 @@ var Canvas = {
     init: function(canvas, color, line, saveButton, clearButton) {
         //mise en place du canva
         this.canvas = document.getElementById(canvas);
-        this.context = this.canvas.getContext("2d");
-        this.context.strokeStyle = color;
-        this.context.lineWidth = line;
+        this.context = this.canvas.getContext("2d");// retourne un context de dessin
+        this.context.strokeStyle = color;//defini couleur ou style -> color, gradient ou pattern
+        this.context.lineWidth = line;//epaisseur du trait
         this.saveButton = document.getElementById(saveButton);
         this.clearButton = document.getElementById(clearButton);
         
-        //gestion souris
+        //gestion souris -> au départ ne dessine pas, situé en haut à gauche
         this.draw = false;
-        this.mousePosition = {x:0, y:0};
-        this.lastPosition = this.mousePosition;
+        this.positionSourisDepart = {x:0, y:0};
+        this.lastPosition = this.positionSourisDepart;
 
         this.evenementSouris();
-        this.animationNavigateur();
+        this.rafraichissementEcran();
         this.animationBoucle();
         this.evenementDoigt();
         this.clearCanvas();
@@ -22,66 +22,67 @@ var Canvas = {
         
     },
     
-    //obtenir la position de la souris sur le canva
-    getMousePosition: function(canvasDOM, mouseEvent) {
-        var rectangle = canvasDOM.getBoundingClientRect();// pour avoir la position de la souris 
-        return {
-            x: mouseEvent.clientX - rectangle.left,
-            y: mouseEvent.clientY - rectangle.top,
-        };// retourne la position sous un objet, client X retourne coordonnée horizontale, client Y coord verticale
-    },
-    
-    //gestion evenements de la souris
+    //gestion de la souris
     evenementSouris: function() {
         this.canvas.addEventListener("mousedown", function(e) {
             this.draw = true;
             this.lastPosition = this.getMousePosition(this.canvas, e);   
-        }.bind(this), false); //useCapture pour compatibilité tous navigateurs
+        }.bind(this), false); //useCapture ->false permet compatibilité tous navigateurs
         
         this.canvas.addEventListener("mouseup", function(e) {
             this.draw =false;
         }.bind(this), false);
         
         this.canvas.addEventListener("mousemove", function(e) {
-            this.mousePosition= this.getMousePosition(this.canvas, e);
+            this.positionSourisDepart= this.getMousePosition(this.canvas, e);
             
         }.bind(this), false);
     },
 
-
-    // si navigateur non compatible plusieurs possibilités d'animation
-    animationNavigateur: function() {
-        window.requestAnimFrame = (function (callback) {
-                return window.requestAnimationFrame || 
-                   window.webkitRequestAnimationFrame ||
-                   window.mozRequestAnimationFrame ||
-                   window.oRequestAnimationFrame ||
-                   window.msRequestAnimaitonFrame ||
-                   function (callback) {
-                window.setTimeout(callback, 1000/60);
-                   };
+    //obtenir la position de la souris sur le canva
+    getMousePosition: function(canvasDOM, mouseEvent) {
+        var rectangle = canvasDOM.getBoundingClientRect();// renvoie la taille d'un élément et sa position relative par rapport à la zone d'affichage (viewport) 
+        
+        return {
+            x: mouseEvent.clientX - rectangle.left,
+            y: mouseEvent.clientY - rectangle.top,
+        };// retourne la position sous un objet, client X retourne coordonnée horizontale dans un canva. en haut sera toujours à 0, client Y coord verticale dans un canva. a gauche toujours à 0.
+    },
+    
+    // on a besoin de rafraichir l'écran régulierement pour voir apparaitre le tracé -  si navigateur non compatible plusieurs possibilités d'animation -> cf developper mozilla
+    rafraichissementEcran: function() {
+        window.ecranRafraichi = (function (callback) {
+                return window.requestAnimationFrame || // Firefox 23 / IE 10 / Chrome / Safari 7 (incl. iOS)
+                window.webkitRequestAnimationFrame || //pour anciennes versions de Safari / Chrome
+                window.mozRequestAnimationFrame || //pour Firefox < 23
+                window.oRequestAnimationFrame || //pour Opéra
+                window.msRequestAnimationFrame || //IE
+                function (callback) {
+                    window.setTimeout(callback, 1000/60);
+                };
         })();
     },
 
-
-    // Fonction dessin matérialisé
-    renderCanvas: function() {
-      if (this.draw) {
-        this.context.moveTo(this.lastPosition.x, this.lastPosition.y);
-        this.context.lineTo(this.mousePosition.x, this.mousePosition.y);
-        this.context.stroke();
-        this.lastPosition = this.mousePosition;
-        sessionStorage.setItem("canvaEnregistre", "true"); //enregistre booléen pour suivi reservation
-      };
-    },
 
     // Animation fonction auto appelée
     animationBoucle: function() {
         var self = this;
-        (function drawLoop () {
-          requestAnimFrame(drawLoop);
-          self.renderCanvas();
+        (function dessinAnime () {
+          ecranRafraichi(dessinAnime);
+          self.dessinSurCanvas();
         })();
+    },
+    
+    // Fonction dessiner
+    dessinSurCanvas: function() {
+      if (this.draw) {
+        this.context.beginPath(); //pour démarrer un nouveau dessin
+        this.context.moveTo(this.lastPosition.x, this.lastPosition.y);//point de départ
+        this.context.lineTo(this.positionSourisDepart.x, this.positionSourisDepart.y);//point d'arrivée
+        this.context.stroke();//methode qui dessine avec style attribué
+        this.lastPosition = this.positionSourisDepart;
+        sessionStorage.setItem("canvaEnregistre", "true"); //enregistre booléen pour suivi reservation
+      };
     },
 
 
@@ -92,21 +93,20 @@ var Canvas = {
             
             if (e.target === this.canvas) {
             e.preventDefault();
-            };//fixe le canva
-            this.mousePosition = this.getTouchPosition(this.canvas, e);
-            var touch = e.touches[0]; //touches correspond aux doigts sur l'ecra mais le 0?
-            //pourquoi new -> pour lier l evenement touch à la souris?
+            };//fixe le canva pour qu'il ne bouge pas avec le doigt -> cf doc mozilla developper
+            this.positionSourisDepart = this.getTouchPosition(this.canvas, e);
+            var touch = e.touches[0]; //c'est le 1er toucher tactile
             var mouseEvent = new MouseEvent("mousedown", { //pourquoi on créé un objet ici?
             clientX: touch.clientX,
             clientY: touch.clientY
             });
-            this.canvas.dispatchEvent(mouseEvent); //envoie un evenement à la cible specifiée en appelant els ecouteurs dans l'ordre approprié
+            this.canvas.dispatchEvent(mouseEvent); //après écoute, distribue l'évènement
         }, false);
 
         this.canvas.addEventListener("touchend", function (e) {
             if (e.target === this.canvas) {
             e.preventDefault();
-            };//fixe le canva
+            };
             var mouseEvent = new MouseEvent("mouseup", {});
             this.canvas.dispatchEvent(mouseEvent);
             }, false);
@@ -114,8 +114,8 @@ var Canvas = {
         this.canvas.addEventListener("touchmove", function (e) {
             if (e.target === this.canvas) {
             e.preventDefault();
-            };//fixe le canva
-            var touch = e.touches[0];
+            };
+            var touch = e.touches[0]; 
             var mouseEvent = new MouseEvent("mousemove", {
             clientX: touch.clientX,
             clientY: touch.clientY
@@ -136,12 +136,12 @@ var Canvas = {
     //Reinitialiser le canva
     clearCanvas: function () {
         this.clearButton.addEventListener("click", function() {
-            this.canvaReset(); //seul moyen est de reinitialiser la width
+            this.canvaReset(); 
             }.bind(this));
         },
     
     canvaReset: function () {
-        this.canvas.width = this.canvas.width;
+        this.canvas.width = this.canvas.width; //seul moyen est de reinitialiser la width
         sessionStorage.setItem("canvaEnregistre", "false");
     },
     
