@@ -50,6 +50,7 @@ adaptation tablette et écrans PC avec media Queries*/
     position: absolute;
     width: 30%;
     top: 60%;
+    right: 70%;
     z-index: 11; 
 }
 
@@ -190,5 +191,3 @@ adaptation tablette et écrans PC avec media Queries*/
         top: 50%;
     }
 }
-
-
