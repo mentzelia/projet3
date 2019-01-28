@@ -76,7 +76,7 @@ var Canvas = {
     // Fonction dessiner
     dessinSurCanvas: function() {
       if (this.draw) {
-        this.context.beginPath(); //pour démarrer un nouveau dessin
+        //this.context.beginPath(); //pour démarrer un nouveau dessin
         this.context.moveTo(this.lastPosition.x, this.lastPosition.y);//point de départ
         this.context.lineTo(this.positionSourisDepart.x, this.positionSourisDepart.y);//point d'arrivée
         this.context.stroke();//methode qui dessine avec style attribué
@@ -85,51 +85,54 @@ var Canvas = {
       };
     },
 
-
     //Gestion du doigt pour tablette et mobile
     evenementDoigt: function() {
         this.canvas.addEventListener("touchstart", function (e) {
             sessionStorage.setItem("canvaEnregistre", "true");
             
             if (e.target === this.canvas) {
-            e.preventDefault();
+                //si ce qui a declenché l'évènement est le canva
+                e.preventDefault();
             };//fixe le canva pour qu'il ne bouge pas avec le doigt -> cf doc mozilla developper
+            
             this.positionSourisDepart = this.getTouchPosition(this.canvas, e);
             var touch = e.touches[0]; //c'est le 1er toucher tactile
-            var mouseEvent = new MouseEvent("mousedown", { //pourquoi on créé un objet ici?
+            var mouseEvent = new MouseEvent("mousedown", { //conversion touch en mouse
             clientX: touch.clientX,
-            clientY: touch.clientY
+            clientY: touch.clientY,
             });
-            this.canvas.dispatchEvent(mouseEvent); //après écoute, distribue l'évènement
-        }, false);
+            this.canvas.dispatchEvent(mouseEvent); //déclenche sur le canva l'évenement mouseEvent passé en paramètre
+        }.bind(this), false);
 
         this.canvas.addEventListener("touchend", function (e) {
             if (e.target === this.canvas) {
-            e.preventDefault();
+                e.preventDefault();
             };
+            
             var mouseEvent = new MouseEvent("mouseup", {});
             this.canvas.dispatchEvent(mouseEvent);
-            }, false);
+            }.bind(this), false);
 
         this.canvas.addEventListener("touchmove", function (e) {
             if (e.target === this.canvas) {
             e.preventDefault();
             };
+            
             var touch = e.touches[0]; 
             var mouseEvent = new MouseEvent("mousemove", {
             clientX: touch.clientX,
             clientY: touch.clientY
             });
             this.canvas.dispatchEvent(mouseEvent);
-        }, false);
+        }.bind(this), false);
     },
-
+    
     //Position du doigt sur le canvas
     getTouchPosition: function (canvasDom, touchEvent) {
       var rectangle = canvasDom.getBoundingClientRect();
       return {
-        x: touchEvent.touches[0].clientX - rect.left,
-        y: touchEvent.touches[0].clientY - rect.top
+        x: touchEvent.touches[0].clientX - rectangle.left,
+        y: touchEvent.touches[0].clientY - rectangle.top,
       };
     },
     
